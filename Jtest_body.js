@@ -10,6 +10,14 @@ function clearA()
 }
 
 startA()
+{
+
+}
+
+finishA()
+{
+
+}
 
 function paintingA()
 {
