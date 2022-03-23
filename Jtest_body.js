@@ -9,14 +9,13 @@ for(var i=0;i<this.n;i++)
     this.matrix[i]=new Array();
       for(var j=0;j<this.n;j++)
     {   
-        this.matrix[i][j]=1;
+        this.matrix[i][j]==0;//0-нет связи,
     }
 }
-
 }
 
 };
-
+//очень мало для матрицы
 
 var size =canvasA.height=901;
 canvasA.width=901;
@@ -68,6 +67,7 @@ if(typeA==='finishA'){
     finishPoint.y=Ny;
 }
 ctxA.fillStyle=colorSquare;
+
 ctxA.fillRect(Nx*pxvalue+1,Ny*pxvalue+1,pxvalue-2,pxvalue-2)
  console.log(y);//по вертикали
  console.log(x);//по горизонтали
