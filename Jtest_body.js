@@ -50,6 +50,11 @@ function paintingA()
 
 }
 
+function Point(x,y){
+    this.x=x;
+    this.y=y;
+}
+
 function searchPath(n, matrix, startPoint, finishPoint){
     // В матрице: 0 - стена, 1 - проход
     let queue=[];
@@ -60,11 +65,11 @@ function searchPath(n, matrix, startPoint, finishPoint){
 
     while(queue.length==0){
         current=queue.shift();
-        if(current=finishPoint){
+        if(equal(current,finishPoint)){
             break;
         }
-        adjacentCells(current).forEach(function(nextPoint){
-            if(prevPoint[current]!=nextPoint && matrix[Math.floor(nextPoint/n)][nextPoint%n]==1){
+        adjacentCells(current,n).forEach(function(nextPoint){
+            if(equal(prevPoint[current],nextPoint) && matrix[nextPoint.x][nextPoint.y]==1){
                 queue.push(nextPoint);
                 prevPoint[nextPoint]=current;
             }
@@ -74,17 +79,24 @@ function searchPath(n, matrix, startPoint, finishPoint){
 
 function adjacentCells(point,n){
     let array = [];
-    if (point%n!=0){
-        array.push(point-1);
+    if (point.x>0){
+        array.push(new Point(x-1,y));
     }
-    if(point+1%n!=0){
-        array.push(point+1);
+    if(point.x+1<n){
+        array.push(new Point(x+1,y));
     }
-    if(point>=n){
-        array.push(point-n);
+    if(point.y>0){
+        array.push(new Point(x,y-1));
     }
-    if(point+n<n*n){
-        array.push(point+n);
+    if(point.y+1<n){
+        array.push(new Point(x,y+1));
     }
     return array;
+}
+
+function equal(point1,point2){
+    if(point1.x==point2.x && point1.y==point2.y){
+        return true;
+    }
+    return false;
 }
