@@ -66,7 +66,13 @@ function searchPath(n, matrix, startPoint, finishPoint){
     while(queue.length==0){
         current=queue.shift();
         if(equal(current,finishPoint)){
-            break;
+            let stack=[];
+            while(current==startPoint){
+                stack.push(current);
+                current=prevPoint[current];
+            }
+            stack.push(current);
+            return stack;
         }
         adjacentCells(current,n).forEach(function(nextPoint){
             if(equal(prevPoint[current],nextPoint) && matrix[nextPoint.x][nextPoint.y]==1){
@@ -75,6 +81,8 @@ function searchPath(n, matrix, startPoint, finishPoint){
             }
         });
     }
+
+
 }
 
 function adjacentCells(point,n){
