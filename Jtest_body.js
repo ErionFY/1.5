@@ -1,21 +1,5 @@
-class Graph{
 
-constructor(n)
-{
-this.n=n*n;
-this.matrix=new Array();
-for(var i=0;i<this.n;i++)
-{
-    this.matrix[i]=new Array();
-      for(var j=0;j<this.n;j++)
-    {   
-        this.matrix[i][j]==0;//0-нет связи,
-    }
-}
-}
-
-};
-//очень мало для матрицы
+var matrixA=new Array();
 
 var size =canvasA.height=901;
 canvasA.width=901;
@@ -23,26 +7,29 @@ canvasA.width=901;
 var cA=document.getElementById("canvasA");
 var ctxA=cA.getContext("2d");
 
+
 var N;
 var startPoint={x:"",y:""};
 var finishPoint={x:"",y:""};
 var typeA;
 var pxvalue
 
-var G=new Graph(N);
+
 
 function clickedA(types)
 {
     typeA=types;
     if(typeA==='startA'){
-       cA.addEventListener('click', position,{"once":true});
+       cA.addEventListener('click', position);//{"once":true}
     }
 
     if(typeA==='finishA'){
-       cA.addEventListener('click', position,{"once":true});
+       cA.addEventListener('click', position);//,{"once":true}
     }
 
-
+    if(typeA==='impassable'){
+        cA.addEventListener('click', position,);
+     }
 }
 
 
@@ -55,25 +42,64 @@ function position(event)
  var Ny=Math.floor(y/pxvalue);
  var colorSquare;
 if(typeA==='startA'){
+
+    if(Nx===finishPoint.x&&Ny===finishPoint.y)
+    {
+        finishPoint.x=-1;
+        finishPoint.y=-1;
+    }
+
+    matrixA[Ny][Nx]=1;
     colorSquare='green';
     ctxA.clearRect(startPoint.x*pxvalue+1,startPoint.y*pxvalue+1,pxvalue-2,pxvalue-2);
     startPoint.x=Nx;
     startPoint.y=Ny;
+    ctxA.fillStyle=colorSquare;
+    ctxA.fillRect(Nx*pxvalue+1,Ny*pxvalue+1,pxvalue-2,pxvalue-2)
 }
-if(typeA==='finishA'){
+else if(typeA==='finishA'){
+
+    if(startPoint.x===Nx&&startPoint.y===Ny)
+    {
+        startPoint.x=-1;
+        startPoint.y=-1;
+    }
+
+    matrixA[Ny][Nx]=1;
     colorSquare='red';
     ctxA.clearRect(finishPoint.x*pxvalue+1,finishPoint.y*pxvalue+1,pxvalue-2,pxvalue-2);
     finishPoint.x=Nx;
     finishPoint.y=Ny;
+    ctxA.fillStyle=colorSquare;
+    ctxA.fillRect(Nx*pxvalue+1,Ny*pxvalue+1,pxvalue-2,pxvalue-2)
 }
-ctxA.fillStyle=colorSquare;
+else if(typeA==='impassable'&& matrixA[Ny][Nx]===1){
+    
+    if(Nx===finishPoint.x&&Ny===finishPoint.y)
+    {
+        finishPoint.x=-1;
+        finishPoint.y=-1;
+    }
+    else if(Nx===startPoint.x&&Ny===startPoint.y)
+    {
+        startPoint.x=-1;
+        startPoint.y=-1;
+    }
 
-ctxA.fillRect(Nx*pxvalue+1,Ny*pxvalue+1,pxvalue-2,pxvalue-2)
- console.log(y);//по вертикали
- console.log(x);//по горизонтали
- console.log("-");
- console.log(Ny);
- console.log(Nx);
+    colorSquare='darkblue';
+    matrixA[Ny][Nx]=0;
+    ctxA.fillStyle=colorSquare;
+    ctxA.fillRect(Nx*pxvalue+1,Ny*pxvalue+1,pxvalue-2,pxvalue-2)
+}
+else if(typeA==='impassable'&&matrixA[Ny][Nx]===0){
+    
+    
+    matrixA[Ny][Nx]=1;
+    ctxA.clearRect(Nx*pxvalue+1,Ny*pxvalue+1,pxvalue-2,pxvalue-2);
+    
+}
+console.log(startPoint.x+" "+startPoint.y);
+console.log(finishPoint.x+" "+finishPoint.y);
 }
 
 
@@ -86,7 +112,20 @@ function paintingA()
    
     var N=document.getElementById("nA");
     N=N.value;
+    
+for (var i=0;i<N;i++)
+{
+    matrixA[i]=new Array;
+    for(var j=0;j<N;j++)
+    {
+        matrixA[i][j]=1;
+    }
+}
 
+startPoint.x=-1;
+startPoint.y=-1;
+finishPoint.x=-1;
+finishPoint.y=-1;
     pxvalue=Math.floor(size/N);
     var Fullpxval=N*pxvalue;
 
@@ -110,4 +149,3 @@ function paintingA()
 
 }
 
-//граф N*N вершин
