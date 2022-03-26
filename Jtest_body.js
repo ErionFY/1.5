@@ -8,12 +8,12 @@ var cA=document.getElementById("canvasA");
 var ctxA=cA.getContext("2d");
 
 
-var N;
+var N=10;
 var startPoint={x:-1,y:-1};
 var finishPoint={x:-1,y:-1};
 var typeA;
 var pxvalue
-
+paintingA();
 
 
 function clickedA(types)
@@ -88,8 +88,6 @@ console.log(finishPoint.x+" "+finishPoint.y);
 }
 
 
-function clearA(){ctxA.clearRect(0,0,size,size);}
-//полностю чистим canvas
 
 function paintingA()
 {
@@ -118,7 +116,7 @@ finishPoint.y=-1;
     canvasA.width=Fullpxval;
     size =canvasA.height=Fullpxval;
     //изменяем размеры canvas'a, чтобы не было белых линий
-    clearA()
+    ctxA.clearRect(0,0,size,size);//очищаем полностью canvas
     ctxA.beginPath();
     
     for(var i=0;i<=Fullpxval;i=i+pxvalue)
