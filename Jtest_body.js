@@ -183,3 +183,6 @@ function equal(point1,point2){
     }
     return false;
 }
+
+
+//
