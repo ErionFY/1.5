@@ -128,61 +128,51 @@ finishPoint.y=-1;
 }
 //------------------------------------------------------------------------------------------
 
-
-
-
-
-
-
-
-function Point(x,y){
-    this.x=x;
-    this.y=y;
+function searchA()
+{
+    var path=searchPath(N,matrixA,startPoint,finishPoint);
 }
-
 function searchPath(n, matrix, startPoint, finishPoint){
     // В матрице: 0 - стена, 1 - проход
     let queue=[];
     let prevPoint=new Array(n*n);
-    prevPoint.fill(-1);
+    prevPoint.fill({x:-1,y:-1});
     queue.push(startPoint);
     let current;
 
-    while(queue.length!=0){             //!=0
+    while(queue.length!=0){
         current=queue.shift();
         if(equal(current,finishPoint)){
             let stack=[];
-            while(current==startPoint){
+            while(current!=startPoint){
                 stack.push(current);
-                current=prevPoint[current];
+                current=prevPoint[current.y*N+current.x];
             }
             stack.push(current);
             return stack;
         }
         adjacentCells(current,n).forEach(function(nextPoint){
-            if(equal(prevPoint[current],nextPoint) && matrix[nextPoint.x][nextPoint.y]==1){
+            if(!equal(prevPoint[current.y*N+current.x],nextPoint) && matrix[nextPoint.y][nextPoint.x]==1){
                 queue.push(nextPoint);
-                prevPoint[nextPoint]=current;
+                prevPoint[nextPoint.y*N+nextPoint.x]=current;
             }
         });
     }
-
-
 }
 
 function adjacentCells(point,n){
     let array = [];
     if (point.x>0){
-        array.push(new Point(x-1,y));
+        array.push({x:point.x-1,y:point.y});
     }
     if(point.x+1<n){
-        array.push(new Point(x+1,y));
+        array.push({x:point.x+1,y:point.y});
     }
     if(point.y>0){
-        array.push(new Point(x,y-1));
+        array.push({x:point.x,y:point.y-1});
     }
     if(point.y+1<n){
-        array.push(new Point(x,y+1));
+        array.push({x:point.x,y:point.y+1});
     }
     return array;
 }
