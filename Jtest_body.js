@@ -133,11 +133,6 @@ finishPoint.y=-1;
 //рисование линий по вертикали и горизонтали
 }
 
-function Point(x,y){
-    this.x=x;
-    this.y=y;
-}
-
 function searchPath(n, matrix, startPoint, finishPoint){
     // В матрице: 0 - стена, 1 - проход
     let queue=[];
@@ -158,7 +153,7 @@ function searchPath(n, matrix, startPoint, finishPoint){
             return stack;
         }
         adjacentCells(current,n).forEach(function(nextPoint){
-            if(equal(prevPoint[current],nextPoint) && matrix[nextPoint.x][nextPoint.y]==1){
+            if(!equal(prevPoint[current],nextPoint) && matrix[nextPoint.x][nextPoint.y]==1){
                 queue.push(nextPoint);
                 prevPoint[nextPoint]=current;
             }
