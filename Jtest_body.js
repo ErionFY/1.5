@@ -1,4 +1,3 @@
-
 var matrixA=new Array();
 // матрица, отображающая лабиринт 1-есть проход . 0-нет.
 var size =canvasA.height=901;
@@ -7,14 +6,13 @@ canvasA.width=901;
 var cA=document.getElementById("canvasA");
 var ctxA=cA.getContext("2d");
 
-
 var N=10;
 var startPoint={x:-1,y:-1};
 var finishPoint={x:-1,y:-1};
 var typeA;
 var pxvalue
-paintingA();
 
+paintingA();
 
 function clickedA(types)
 {
@@ -23,8 +21,6 @@ function clickedA(types)
     cA.addEventListener('click', position);//{"once":true}
      //считываем тип кнопки и переходим на соответствующий if  в функции position
 }
-
-
 
 function position(event)
 {
@@ -87,8 +83,6 @@ console.log(startPoint.x+" "+startPoint.y);
 console.log(finishPoint.x+" "+finishPoint.y);
 }
 
-
-
 function paintingA()
 {
     canvasA.width=901;
@@ -132,7 +126,12 @@ finishPoint.y=-1;
     }
 //рисование линий по вертикали и горизонтали
 }
+//------------------------------------------------------------------------------------------
 
+function searchA()
+{
+    var path=searchPath(N,matrixA,startPoint,finishPoint);
+}
 function searchPath(n, matrix, startPoint, finishPoint){
     // В матрице: 0 - стена, 1 - проход
     let queue=[];
@@ -147,15 +146,15 @@ function searchPath(n, matrix, startPoint, finishPoint){
             let stack=[];
             while(current!=startPoint){
                 stack.push(current);
-                current=prevPoint[current];
+                current=prevPoint[current.y*N+current.x];
             }
             stack.push(current);
             return stack;
         }
         adjacentCells(current,n).forEach(function(nextPoint){
-            if(!equal(prevPoint[current],nextPoint) && matrix[nextPoint.x][nextPoint.y]==1){
+            if(!equal(prevPoint[current.y*N+current.x],nextPoint) && matrix[nextPoint.y][nextPoint.x]==1){
                 queue.push(nextPoint);
-                prevPoint[nextPoint]=current;
+                prevPoint[nextPoint.y*N+nextPoint.x]=current;
             }
         });
     }
