@@ -94,15 +94,10 @@ function paintingA()
 {
     canvasA.width=901;
     sizeA =canvasA.height=901;
-<<<<<<< HEAD
     NAd=document.getElementById("nA");
     if(NAd.value<2){alert('Кто-то ввёл число, меньшее 2 ☉ ‿ ⚆');return;}
     if(NAd.value>100){alert('Кто-то ввёл число, большее 100 ☉ ‿ ⚆');return;}
     NA=NAd.value;
-=======
-    NA=document.getElementById("nA");
-    NA=NA.value;
->>>>>>> 1d6dc73c9158278c1e84b7738864c8079bb7ac37
     //получили N
 for (var i=0;i<NA;i++)
 {
