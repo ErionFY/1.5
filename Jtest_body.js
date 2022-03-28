@@ -7,14 +7,17 @@ canvasA.width=901;
 
 var cA=document.getElementById("canvasA");
 var ctxA=cA.getContext("2d");
-var timeDelA=document.getElementById("timeDelay");
-timeDelA=timeDelA.value;
+
 var NA=10;
 var startPointA={x:-1,y:-1};
 var finishPointA={x:-1,y:-1};
 var typeA;
 var pxvalueA
+
+
 paintingA();
+getTimeDelayA();
+
 
 function clickedA(types)
 {
@@ -91,9 +94,11 @@ function paintingA()
 {
     canvasA.width=901;
     sizeA =canvasA.height=901;
-    NA=document.getElementById("nA");
-    NA=NA.value;
-    //получилиN
+    NAd=document.getElementById("nA");
+    if(NAd.value<2){alert('Кто-то ввёл число, меньшее 2 ☉ ‿ ⚆');return;}
+    if(NAd.value>100){alert('Кто-то ввёл число, большее 100 ☉ ‿ ⚆');return;}
+    NA=NAd.value;
+    //получили N
 for (var i=0;i<NA;i++)
 {
     matrixA[i]=new Array;
@@ -130,73 +135,57 @@ finishPointA.y=-1;
 //рисование линий по вертикали и горизонтали
 }
 
-
 //------------------------------------------------------------------------------------------
 function sleep(time){
     return new Promise((resolve)=>setTimeout(resolve,time))
 }
 
 function searchA()
-{
-    permitPress=0;
+{   if(startPointA.x==-1&&startPointA.y==-1){alert('Кто-то не разместил стартовую позицию ☉ ‿ ⚆'); return;}
+    if(finishPointA.x==-1&&finishPointA.y==-1){alert('Кто-то не разместил финишную позицию ☉ ‿ ⚆'); return;}
     clearBeforeClick();
     searchPath(NA,matrixA,startPointA,finishPointA);
-    permitPress=1;
 }
 
 async function searchPath(n, matrix, startPoint, finishPoint){
     // В матрице: 0 - стена, 1 - проход
-   timeDelA=document.getElementById("timeDelay");
-   timeDelA=timeDelA.value;
-    var colorSquareA;
+    getTimeDelayA();
 
     let queue=[];
     let prevPoint=new Array(n*n);
     prevPoint.fill({x:-1,y:-1});
     queue.push(startPoint);
-    let current;
+    let current=startPoint;
 
     while(queue.length!=0){
-//
-if(current!=undefined&&!(current.x===startPoint.x&&current.y===startPoint.y)&&!(current.x===finishPoint.x&&current.y===finishPoint.y)){
-colorSquareA='darkorange';
-ctxA.fillStyle=colorSquareA;
-ctxA.fillRect(current.x*pxvalueA+1,current.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
-        
-    }          //розовый->оранжевый
-//
-current=queue.shift();
-if(!(current.x===startPoint.x&&current.y===startPoint.y)&&!(current.x===finishPoint.x&&current.y===finishPoint.y)){
-colorSquareA='pink';
-ctxA.fillStyle=colorSquareA;
-ctxA.fillRect(current.x*pxvalueA+1,current.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
-}
-await sleep(timeDelA);
-//
+        if(!equalA(current,startPoint)&&!equalA(current,finishPoint)){
+            changeColor('darkorange',current);
+        }
+        current=queue.shift();
+        if(!equalA(current,startPoint)&&!equalA(current,finishPoint)){
+            changeColor('pink',current);
+        }
+        await sleep(timeDelA);
         if(equalA(current,finishPoint)){
             let stack=[];
             while(current!=startPoint){
                 stack.push(current);//          chartreuse
-                if(!(current.x===finishPoint.x&&current.y===finishPoint.y)){
-                colorSquareA='chartreuse';
-                ctxA.fillStyle=colorSquareA;
-                ctxA.fillRect(current.x*pxvalueA+1,current.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
-                await sleep(timeDelA)
+                if(!equalA(current,finishPoint)){
+                    changeColor('chartreuse',current);
+                    await sleep(timeDelA)
                 }
                 current=prevPoint[current.y*NA+current.x];
             }
             stack.push(current);
             clearAfterSearch(stack);
-            return ;
+            return;
         }
         adjacentCellsA(current,n).forEach(function(nextPoint){
             if(!equalA(prevPoint[current.y*NA+current.x],nextPoint) && matrix[nextPoint.y][nextPoint.x]==1){
                 if(prevPoint[nextPoint.y*NA+nextPoint.x].x===-1&&prevPoint[nextPoint.y*NA+nextPoint.x].y===-1){
                 queue.push(nextPoint);//;жёлтый
-                if(!(nextPoint.x===finishPoint.x&&nextPoint.y===finishPoint.y)){
-                colorSquareA='yellow';
-                ctxA.fillStyle=colorSquareA;
-                ctxA.fillRect(nextPoint.x*pxvalueA+1,nextPoint.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
+                if(!equalA(nextPoint,finishPoint)){
+                    changeColor('yellow',nextPoint);
                 }
                 prevPoint[nextPoint.y*NA+nextPoint.x]=current;
                 }
@@ -204,8 +193,9 @@ await sleep(timeDelA);
             }
         });
         await sleep(timeDelA)
-       
     }
+     alert('Кто-то создал лабиринт, в котором не существует маршрута от старта до финиша ☉ ‿ ⚆');
+     return;
 }
 
 function adjacentCellsA(point,n){
@@ -273,4 +263,15 @@ function clearBeforeClick()
             }
         }
     }
+}
+function changeColor(colorA,point){
+    ctxA.fillStyle=colorA;
+    ctxA.fillRect(point.x*pxvalueA+1,point.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
+}
+
+function getTimeDelayA()
+{
+    var timeDelAd=document.getElementById("timeDelay");
+    if(timeDelAd.value<1){alert('Кто-то ввёл число, меньшее 1 ☉ ‿ ⚆');return;}
+    timeDelA=timeDelAd.value;
 }
