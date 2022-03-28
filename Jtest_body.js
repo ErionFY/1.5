@@ -93,7 +93,7 @@ function paintingA()
     sizeA =canvasA.height=901;
     NA=document.getElementById("nA");
     NA=NA.value;
-    //получилиN
+    //получили N
 for (var i=0;i<NA;i++)
 {
     matrixA[i]=new Array;
@@ -154,49 +154,37 @@ async function searchPath(n, matrix, startPoint, finishPoint){
     let prevPoint=new Array(n*n);
     prevPoint.fill({x:-1,y:-1});
     queue.push(startPoint);
-    let current;
+    let current=startPoint;
 
     while(queue.length!=0){
-//
-if(current!=undefined&&!(current.x===startPoint.x&&current.y===startPoint.y)&&!(current.x===finishPoint.x&&current.y===finishPoint.y)){
-colorSquareA='darkorange';
-ctxA.fillStyle=colorSquareA;
-ctxA.fillRect(current.x*pxvalueA+1,current.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
-        
-    }          //розовый->оранжевый
-//
-current=queue.shift();
-if(!(current.x===startPoint.x&&current.y===startPoint.y)&&!(current.x===finishPoint.x&&current.y===finishPoint.y)){
-colorSquareA='pink';
-ctxA.fillStyle=colorSquareA;
-ctxA.fillRect(current.x*pxvalueA+1,current.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
-}
-await sleep(timeDelA);
-//
+        if(!equalA(current,startPoint)&&!equalA(current,finishPoint)){
+            changeColor('darkorange',current);
+        }
+        current=queue.shift();
+        if(!equalA(current,startPoint)&&!equalA(current,finishPoint)){
+            changeColor('pink',current);
+        }
+        await sleep(timeDelA);
         if(equalA(current,finishPoint)){
             let stack=[];
             while(current!=startPoint){
                 stack.push(current);//          chartreuse
-                if(!(current.x===finishPoint.x&&current.y===finishPoint.y)){
-                colorSquareA='chartreuse';
-                ctxA.fillStyle=colorSquareA;
-                ctxA.fillRect(current.x*pxvalueA+1,current.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
-                await sleep(timeDelA)
+                if(!equalA(current,finishPoint)){
+                    changeColor('chartreuse',current);
+                    await sleep(timeDelA)
                 }
                 current=prevPoint[current.y*NA+current.x];
             }
             stack.push(current);
             clearAfterSearch(stack);
-            return ;
+            return;
         }
         adjacentCellsA(current,n).forEach(function(nextPoint){
             if(!equalA(prevPoint[current.y*NA+current.x],nextPoint) && matrix[nextPoint.y][nextPoint.x]==1){
                 if(prevPoint[nextPoint.y*NA+nextPoint.x].x===-1&&prevPoint[nextPoint.y*NA+nextPoint.x].y===-1){
                 queue.push(nextPoint);//;жёлтый
-                if(!(nextPoint.x===finishPoint.x&&nextPoint.y===finishPoint.y)){
-                colorSquareA='yellow';
-                ctxA.fillStyle=colorSquareA;
-                ctxA.fillRect(nextPoint.x*pxvalueA+1,nextPoint.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
+                if(!equalA(nextPoint,finishPoint)){
+                    changeColor('yellow',nextPoint);
                 }
                 prevPoint[nextPoint.y*NA+nextPoint.x]=current;
                 }
@@ -204,8 +192,8 @@ await sleep(timeDelA);
             }
         });
         await sleep(timeDelA)
-       
     }
+    //Сюда попадёт если не нашёл пути
 }
 
 function adjacentCellsA(point,n){
@@ -273,4 +261,9 @@ function clearBeforeClick()
             }
         }
     }
+}
+function changeColor(color,point){
+    colorSquareA=color;
+    ctxA.fillStyle=colorSquareA;
+    ctxA.fillRect(point.x*pxvalueA+1,point.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
 }
