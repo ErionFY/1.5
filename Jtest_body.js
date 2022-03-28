@@ -1,119 +1,122 @@
-var matrixA=new Array();
+var matrixA=new Array();//[y][x]
 // матрица, отображающая лабиринт 1-есть проход . 0-нет.
-var size =canvasA.height=901;
+var sizeA =canvasA.height=901;
 canvasA.width=901;
+
+
 
 var cA=document.getElementById("canvasA");
 var ctxA=cA.getContext("2d");
-
-var N=10;
-var startPoint={x:-1,y:-1};
-var finishPoint={x:-1,y:-1};
+var timeDelA=document.getElementById("timeDelay");
+timeDelA=timeDelA.value;
+var NA=10;
+var startPointA={x:-1,y:-1};
+var finishPointA={x:-1,y:-1};
 var typeA;
-var pxvalue
-
+var pxvalueA
 paintingA();
 
 function clickedA(types)
 {
-    typeA=types;
     
-    cA.addEventListener('click', position);//{"once":true}
+    typeA=types;
+    cA.addEventListener('click', positionA);
+//{"once":true}
      //считываем тип кнопки и переходим на соответствующий if  в функции position
 }
 
-function position(event)
+function positionA(event)
 {
+    clearBeforeClick();
  var x=event.offsetX;
  var y=event.offsetY;//получаем координаты клика на canvas'e
- var Nx=Math.floor(x/pxvalue);
- var Ny=Math.floor(y/pxvalue);//получаем, клетку(координаты клетки)
- var colorSquare;
+ var Nx=Math.floor(x/pxvalueA);
+ var Ny=Math.floor(y/pxvalueA);//получаем, клетку(координаты клетки)
+ 
 if(typeA==='startA'){
 
-    if(Nx===finishPoint.x&&Ny===finishPoint.y){
-        finishPoint.x=-1;
-        finishPoint.y=-1;
+    if(Nx===finishPointA.x&&Ny===finishPointA.y){
+        finishPointA.x=-1;
+        finishPointA.y=-1;
     }//если закрашиваем клетку , которая окрашена в финиш , то её координаты сбрасываются
 
     matrixA[Ny][Nx]=1;
     colorSquare='green';
-    ctxA.clearRect(startPoint.x*pxvalue+1,startPoint.y*pxvalue+1,pxvalue-2,pxvalue-2);
-    startPoint.x=Nx;
-    startPoint.y=Ny;
+    ctxA.clearRect(startPointA.x*pxvalueA+1,startPointA.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
+    startPointA.x=Nx;
+    startPointA.y=Ny;
     ctxA.fillStyle=colorSquare;
-    ctxA.fillRect(Nx*pxvalue+1,Ny*pxvalue+1,pxvalue-2,pxvalue-2)
+    ctxA.fillRect(Nx*pxvalueA+1,Ny*pxvalueA+1,pxvalueA-2,pxvalueA-2)
 }
 else if(typeA==='finishA'){
 
-    if(startPoint.x===Nx&&startPoint.y===Ny){
-        startPoint.x=-1;
-        startPoint.y=-1;
+    if(startPointA.x===Nx&&startPointA.y===Ny){
+        startPointA.x=-1;
+        startPointA.y=-1;
     }//если закрашиваем клетку , которая окрашена в старт , то её координаты сбрасываются
 
     matrixA[Ny][Nx]=1;
     colorSquare='red';
-    ctxA.clearRect(finishPoint.x*pxvalue+1,finishPoint.y*pxvalue+1,pxvalue-2,pxvalue-2);
-    finishPoint.x=Nx;
-    finishPoint.y=Ny;
+    ctxA.clearRect(finishPointA.x*pxvalueA+1,finishPointA.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
+    finishPointA.x=Nx;
+    finishPointA.y=Ny;
     ctxA.fillStyle=colorSquare;
-    ctxA.fillRect(Nx*pxvalue+1,Ny*pxvalue+1,pxvalue-2,pxvalue-2)
+    ctxA.fillRect(Nx*pxvalueA+1,Ny*pxvalueA+1,pxvalueA-2,pxvalueA-2)
 }
 else if(typeA==='impassable'&& matrixA[Ny][Nx]===1){//если клетка проходима
-    if(Nx===finishPoint.x&&Ny===finishPoint.y){
-        finishPoint.x=-1;
-        finishPoint.y=-1;
+    if(Nx===finishPointA.x&&Ny===finishPointA.y){
+        finishPointA.x=-1;
+        finishPointA.y=-1;
     }
-    else if(Nx===startPoint.x&&Ny===startPoint.y){
-        startPoint.x=-1;
-        startPoint.y=-1;
+    else if(Nx===startPointA.x&&Ny===startPointA.y){
+        startPointA.x=-1;
+        startPointA.y=-1;
     }//проверка на перекрашивание старта или финиша,  и сброс соответствующей координаты
 
     colorSquare='darkblue';
     matrixA[Ny][Nx]=0; //клетка становится непроходимой - 0
     ctxA.fillStyle=colorSquare;
-    ctxA.fillRect(Nx*pxvalue+1,Ny*pxvalue+1,pxvalue-2,pxvalue-2) //закращиваем
+    ctxA.fillRect(Nx*pxvalueA+1,Ny*pxvalueA+1,pxvalueA-2,pxvalueA-2) //закращиваем
 }
 else if(typeA==='impassable'&&matrixA[Ny][Nx]===0){//если клетка непроходима
     matrixA[Ny][Nx]=1;//клетка становится проходимой
-    ctxA.clearRect(Nx*pxvalue+1,Ny*pxvalue+1,pxvalue-2,pxvalue-2);//стираем цвет проходимой клетки
+    ctxA.clearRect(Nx*pxvalueA+1,Ny*pxvalueA+1,pxvalueA-2,pxvalueA-2);//стираем цвет проходимой клетки
     
 }
-console.log(startPoint.x+" "+startPoint.y);
-console.log(finishPoint.x+" "+finishPoint.y);
+console.log(startPointA.x+" "+startPointA.y);
+console.log(finishPointA.x+" "+finishPointA.y);
 }
 
 function paintingA()
 {
     canvasA.width=901;
-    size =canvasA.height=901;
-   
-    var N=document.getElementById("nA");
-    N=N.value;
+    sizeA =canvasA.height=901;
+    NA=document.getElementById("nA");
+    NA=NA.value;
     //получилиN
-for (var i=0;i<N;i++)
+for (var i=0;i<NA;i++)
 {
     matrixA[i]=new Array;
-    for(var j=0;j<N;j++)
+    for(var j=0;j<NA;j++)
     {
         matrixA[i][j]=1;
     }
 }
 //создаём матрицу , после получения N
-startPoint.x=-1;
-startPoint.y=-1;
-finishPoint.x=-1;
-finishPoint.y=-1;
-    pxvalue=Math.floor(size/N);
-    var Fullpxval=N*pxvalue;
+startPointA.x=-1;
+startPointA.y=-1;
+finishPointA.x=-1;
+finishPointA.y=-1;
+    pxvalueA=Math.floor(sizeA/NA);
+    var Fullpxval=NA*pxvalueA;
 
     canvasA.width=Fullpxval;
-    size =canvasA.height=Fullpxval;
+    sizeA =canvasA.height=Fullpxval;
     //изменяем размеры canvas'a, чтобы не было белых линий
-    ctxA.clearRect(0,0,size,size);//очищаем полностью canvas
+    ctxA.clearRect(0,0,sizeA,sizeA);//очищаем полностью canvas
     ctxA.beginPath();
     
-    for(var i=0;i<=Fullpxval;i=i+pxvalue)
+    for(var i=0;i<=Fullpxval;i=i+pxvalueA)
     {   
 
         ctxA.moveTo(i,0);
@@ -126,14 +129,27 @@ finishPoint.y=-1;
     }
 //рисование линий по вертикали и горизонтали
 }
+
+
 //------------------------------------------------------------------------------------------
+function sleep(time){
+    return new Promise((resolve)=>setTimeout(resolve,time))
+}
 
 function searchA()
 {
-    var path=searchPath(N,matrixA,startPoint,finishPoint);
+    permitPress=0;
+    clearBeforeClick();
+    searchPath(NA,matrixA,startPointA,finishPointA);
+    permitPress=1;
 }
-function searchPath(n, matrix, startPoint, finishPoint){
+
+async function searchPath(n, matrix, startPoint, finishPoint){
     // В матрице: 0 - стена, 1 - проход
+   timeDelA=document.getElementById("timeDelay");
+   timeDelA=timeDelA.value;
+    var colorSquareA;
+
     let queue=[];
     let prevPoint=new Array(n*n);
     prevPoint.fill({x:-1,y:-1});
@@ -141,26 +157,58 @@ function searchPath(n, matrix, startPoint, finishPoint){
     let current;
 
     while(queue.length!=0){
-        current=queue.shift();
-        if(equal(current,finishPoint)){
+//
+if(current!=undefined&&!(current.x===startPoint.x&&current.y===startPoint.y)&&!(current.x===finishPoint.x&&current.y===finishPoint.y)){
+colorSquareA='darkorange';
+ctxA.fillStyle=colorSquareA;
+ctxA.fillRect(current.x*pxvalueA+1,current.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
+        
+    }          //розовый->оранжевый
+//
+current=queue.shift();
+if(!(current.x===startPoint.x&&current.y===startPoint.y)&&!(current.x===finishPoint.x&&current.y===finishPoint.y)){
+colorSquareA='pink';
+ctxA.fillStyle=colorSquareA;
+ctxA.fillRect(current.x*pxvalueA+1,current.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
+}
+await sleep(timeDelA);
+//
+        if(equalA(current,finishPoint)){
             let stack=[];
             while(current!=startPoint){
-                stack.push(current);
-                current=prevPoint[current.y*N+current.x];
+                stack.push(current);//          chartreuse
+                if(!(current.x===finishPoint.x&&current.y===finishPoint.y)){
+                colorSquareA='chartreuse';
+                ctxA.fillStyle=colorSquareA;
+                ctxA.fillRect(current.x*pxvalueA+1,current.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
+                await sleep(timeDelA)
+                }
+                current=prevPoint[current.y*NA+current.x];
             }
             stack.push(current);
-            return stack;
+            clearAfterSearch(stack);
+            return ;
         }
-        adjacentCells(current,n).forEach(function(nextPoint){
-            if(!equal(prevPoint[current.y*N+current.x],nextPoint) && matrix[nextPoint.y][nextPoint.x]==1){
-                queue.push(nextPoint);
-                prevPoint[nextPoint.y*N+nextPoint.x]=current;
+        adjacentCellsA(current,n).forEach(function(nextPoint){
+            if(!equalA(prevPoint[current.y*NA+current.x],nextPoint) && matrix[nextPoint.y][nextPoint.x]==1){
+                if(prevPoint[nextPoint.y*NA+nextPoint.x].x===-1&&prevPoint[nextPoint.y*NA+nextPoint.x].y===-1){
+                queue.push(nextPoint);//;жёлтый
+                if(!(nextPoint.x===finishPoint.x&&nextPoint.y===finishPoint.y)){
+                colorSquareA='yellow';
+                ctxA.fillStyle=colorSquareA;
+                ctxA.fillRect(nextPoint.x*pxvalueA+1,nextPoint.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
+                }
+                prevPoint[nextPoint.y*NA+nextPoint.x]=current;
+                }
+                
             }
         });
+        await sleep(timeDelA)
+       
     }
 }
 
-function adjacentCells(point,n){
+function adjacentCellsA(point,n){
     let array = [];
     if (point.x>0){
         array.push({x:point.x-1,y:point.y});
@@ -177,11 +225,52 @@ function adjacentCells(point,n){
     return array;
 }
 
-function equal(point1,point2){
+function equalA(point1,point2){
     if(point1.x==point2.x && point1.y==point2.y){
         return true;
     }
     return false;
 }
 
+function clearAfterSearch(pathA)
+{   var pathSizeA=pathA.length;
+    var flag;
+    for(var i=0;i<NA;i++)
+    {
+        for(var j=0;j<NA;j++)
+        {
+            if(matrixA[i][j]===1)
+            {
+                flag=1;
+                for(var l=0;l<pathSizeA;l++)
+                {
+                    if(pathA[l].y===i&&pathA[l].x===j)
+                    {
+                        flag=0;
+                        break;
+                    }
+                }
+                
+                if(flag)
+                {
+                    ctxA.clearRect(j*pxvalueA+1,i*pxvalueA+1,pxvalueA-2,pxvalueA-2);
+                }
+            }
+        }
+    }
+    return;
+}
 
+function clearBeforeClick()
+{
+    for(var i=0;i<NA;i++)
+    {
+        for(var j=0;j<NA;j++)
+        {
+            if(matrixA[i][j]===1&&!(startPointA.x===j&&startPointA.y===i)&&!(finishPointA.x===j&&finishPointA.y===i))
+            {
+                ctxA.clearRect(j*pxvalueA+1,i*pxvalueA+1,pxvalueA-2,pxvalueA-2);
+            }
+        }
+    }
+}
