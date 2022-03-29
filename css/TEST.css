@@ -2,28 +2,25 @@ body {
   background-color:rgb(77, 64, 88);
 }
 
-header
+header,footer
 {
   text-align: center;
   background-color: rgb(89, 74, 102);
 }
 
-#settingsA{
-  float: left;
+h1 {
+  text-align: center;
 }
 
-#canvasA {
+.mSettings{
+  text-align: center;
+}
+
+#canvasClastorization,#canvasA {
   padding: 0;
   margin: auto;
   display: block;
   border:0px solid rgb(35, 35, 61);
   background-color:rgb(209, 209, 209);
-  ;
 }
 
-footer
-{
-  text-align: center;
-  background-color: rgb(89, 74, 102);
-  
-}

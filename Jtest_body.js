@@ -1,9 +1,6 @@
 var matrixA=new Array();//[y][x]
 // матрица, отображающая лабиринт 1-есть проход . 0-нет.
-var sizeA =canvasA.height=901;
-canvasA.width=901;
-
-
+var sizeA =canvasA.height=canvasA.width=901;
 
 var cA=document.getElementById("canvasA");
 var ctxA=cA.getContext("2d");
@@ -30,7 +27,7 @@ function clickedA(types)
 
 function positionA(event)
 {
-    clearBeforeClick();
+    clearBeforeClickA();
  var x=event.offsetX;
  var y=event.offsetY;//получаем координаты клика на canvas'e
  var Nx=Math.floor(x/pxvalueA);
@@ -143,11 +140,11 @@ function sleep(time){
 function searchA()
 {   if(startPointA.x==-1&&startPointA.y==-1){alert('Кто-то не разместил стартовую позицию ☉ ‿ ⚆'); return;}
     if(finishPointA.x==-1&&finishPointA.y==-1){alert('Кто-то не разместил финишную позицию ☉ ‿ ⚆'); return;}
-    clearBeforeClick();
-    searchPath(NA,matrixA,startPointA,finishPointA);
+    clearBeforeClickA();
+    searchPathA(NA,matrixA,startPointA,finishPointA);
 }
 
-async function searchPath(n, matrix, startPoint, finishPoint){
+async function searchPathA(n, matrix, startPoint, finishPoint){
     // В матрице: 0 - стена, 1 - проход
     getTimeDelayA();
 
@@ -159,11 +156,11 @@ async function searchPath(n, matrix, startPoint, finishPoint){
 
     while(queue.length!=0){
         if(!equalA(current,startPoint)&&!equalA(current,finishPoint)){
-            changeColor('darkorange',current);
+            changeColorA('darkorange',current);
         }
         current=queue.shift();
         if(!equalA(current,startPoint)&&!equalA(current,finishPoint)){
-            changeColor('pink',current);
+            changeColorA('pink',current);
         }
         await sleep(timeDelA);
         if(equalA(current,finishPoint)){
@@ -171,13 +168,13 @@ async function searchPath(n, matrix, startPoint, finishPoint){
             while(current!=startPoint){
                 stack.push(current);//          chartreuse
                 if(!equalA(current,finishPoint)){
-                    changeColor('chartreuse',current);
+                    changeColorA('chartreuse',current);
                     await sleep(timeDelA)
                 }
                 current=prevPoint[current.y*NA+current.x];
             }
             stack.push(current);
-            clearAfterSearch(stack);
+            clearAfterSearchA(stack);
             return;
         }
         adjacentCellsA(current,n).forEach(function(nextPoint){
@@ -185,7 +182,7 @@ async function searchPath(n, matrix, startPoint, finishPoint){
                 if(prevPoint[nextPoint.y*NA+nextPoint.x].x===-1&&prevPoint[nextPoint.y*NA+nextPoint.x].y===-1){
                 queue.push(nextPoint);//;жёлтый
                 if(!equalA(nextPoint,finishPoint)){
-                    changeColor('yellow',nextPoint);
+                    changeColorA('yellow',nextPoint);
                 }
                 prevPoint[nextPoint.y*NA+nextPoint.x]=current;
                 }
@@ -222,7 +219,7 @@ function equalA(point1,point2){
     return false;
 }
 
-function clearAfterSearch(pathA)
+function clearAfterSearchA(pathA)
 {   var pathSizeA=pathA.length;
     var flag;
     for(var i=0;i<NA;i++)
@@ -251,7 +248,7 @@ function clearAfterSearch(pathA)
     return;
 }
 
-function clearBeforeClick()
+function clearBeforeClickA()
 {
     for(var i=0;i<NA;i++)
     {
@@ -264,7 +261,7 @@ function clearBeforeClick()
         }
     }
 }
-function changeColor(colorA,point){
+function changeColorA(colorA,point){
     ctxA.fillStyle=colorA;
     ctxA.fillRect(point.x*pxvalueA+1,point.y*pxvalueA+1,pxvalueA-2,pxvalueA-2);
 }
