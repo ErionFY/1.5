@@ -306,7 +306,6 @@ function generateMaze(matrix,n){
     while(walls.length!=0){
         let index=randomInt(0,walls.length-1);
         current=walls[index];
-
         visited[current.x][current.y]=true;
         matrix[current.x][current.y]=PASS;
         adjacentCells=adjacentCellsA(current,n,2)
