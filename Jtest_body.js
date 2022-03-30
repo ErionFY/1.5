@@ -1,5 +1,7 @@
 var matrixA=new Array();//[y][x]
 // матрица, отображающая лабиринт 1-есть проход . 0-нет.
+const WALL=0;
+const PASS=1;
 var sizeA =canvasA.height=canvasA.width=901;
 
 var cA=document.getElementById("canvasA");
@@ -96,19 +98,19 @@ function paintingA()
     if(NAd.value>100){alert('Кто-то ввёл число, большее 100 ☉ ‿ ⚆');return;}
     NA=NAd.value;
     //получили N
-for (var i=0;i<NA;i++)
-{
-    matrixA[i]=new Array;
-    for(var j=0;j<NA;j++)
+    for (var i=0;i<NA;i++)
     {
-        matrixA[i][j]=1;
+        matrixA[i]=new Array;
+        for(var j=0;j<NA;j++)
+        {
+            matrixA[i][j]=1;
+        }
     }
-}
-//создаём матрицу , после получения N
-startPointA.x=-1;
-startPointA.y=-1;
-finishPointA.x=-1;
-finishPointA.y=-1;
+    //создаём матрицу , после получения N
+    startPointA.x=-1;
+    startPointA.y=-1;
+    finishPointA.x=-1;
+    finishPointA.y=-1;
     pxvalueA=Math.floor(sizeA/NA);
     var Fullpxval=NA*pxvalueA;
 
@@ -129,7 +131,7 @@ finishPointA.y=-1;
         ctxA.lineTo(Fullpxval,i);
         ctxA.stroke();
     }
-//рисование линий по вертикали и горизонтали
+    //рисование линий по вертикали и горизонтали
 }
 
 //------------------------------------------------------------------------------------------
@@ -195,19 +197,19 @@ async function searchPathA(n, matrix, startPoint, finishPoint){
      return;
 }
 
-function adjacentCellsA(point,n){
+function adjacentCellsA(point,n,dist=1){
     let array = [];
-    if (point.x>0){
-        array.push({x:point.x-1,y:point.y});
+    if (point.x-dist>=0){
+        array.push({x:point.x-dist,y:point.y});
     }
-    if(point.x+1<n){
-        array.push({x:point.x+1,y:point.y});
+    if(point.x+dist<n){
+        array.push({x:point.x+dist,y:point.y});
     }
-    if(point.y>0){
-        array.push({x:point.x,y:point.y-1});
+    if(point.y-dist>=0){
+        array.push({x:point.x,y:point.y-dist});
     }
-    if(point.y+1<n){
-        array.push({x:point.x,y:point.y+1});
+    if(point.y+dist<n){
+        array.push({x:point.x,y:point.y+dist});
     }
     return array;
 }
@@ -271,4 +273,59 @@ function getTimeDelayA()
     var timeDelAd=document.getElementById("timeDelay");
     if(timeDelAd.value<1){alert('Кто-то ввёл число, меньшее 1 ☉ ‿ ⚆');return;}
     timeDelA=timeDelAd.value;
+}
+
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+function generateMaze(matrix,n){
+    var visited=new Array();
+    for (var i=0;i<n;i++)
+    {
+        visited[i]=new Array;
+        for(var j=0;j<n;j++)
+        {
+            visited[i][j]=false;
+        }
+    }
+
+    for(var i=0;i<n;i++){
+        for(var j=0;j<n;j++){
+            matrix[i][j]=WALL;
+        }
+    }
+    let x=randomInt(0,n-1);
+    let y=randomInt(0,n-1);
+    matrix[x][y]=PASS;
+    var current;
+    var adjacentCells;
+    let walls=adjacentCellsA({x:x,y:y},n,2);
+
+
+    while(walls.length!=0){
+        let index=randomInt(0,walls.length-1);
+        current=walls[index];
+        
+        visited[current.x][current.y]=true;
+        matrix[current.x][current.y]=PASS;
+        adjacentCells=adjacentCellsA(current,n,2)
+        while(true){
+            cell=adjacentCells[randomInt(0,adjacentCells.length-1)];
+            if(matrix[cell.x][cell.y]==PASS){
+                matrix[parseInt((cell.x+current.x)/2)][parseInt((cell.y+current.y)/2)]=PASS;
+                break;
+            }
+        }
+
+        adjacentCellsA(current,n,2).forEach(function(cell){
+            if(!visited[cell.x][cell.y]){
+                walls.push(cell);
+                visited[cell.x][cell.y]=true;
+            }
+        });
+
+        
+        walls.splice(index,1);
+    }
 }
