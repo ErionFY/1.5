@@ -19,6 +19,7 @@
     <button onclick="clickedA('finishA')">finish point</button>
     <button onclick="clickedA('impassable')">impassable point</button>
     <button onclick="searchA()">search path</button>
+    <button onclick="generation()">generate labirinth</button>
     <button onclick="getTimeDelayA()">set TimeDelay</button>:
     <input id="timeDelay" value="1" type="number"  min="1">
 </div>
@@ -26,7 +27,9 @@
     </canvas>
     <h1>Clastorization</h1>
 <div class="mSettings"id="settingsClastorization"> 
-    <button>start</button>
+    <button onclick="KmeansC()">k means</button>
+    K:
+    <input id="Kvalue" value="3" type="number"  min="1">
 </div>
 <canvas id="canvasClastorization"style=" margin-top: 25px;">
 </canvas>
