@@ -4,37 +4,38 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="css/TEST.css">
     <title>document</title>
-    
+
 </head>
 
 <body>
     <header id="H"> header</header>
     <h1>A*</h1>
-<div class="mSettings" id="settingsA">
-    N:
-    <input id="nA" value="10" type="number" max="100" min="2">
-    <button onclick="paintingA()">create empty labyrinth/clear labirinth</button>
-    <!--<button onclick="clearA()">clear</button>  -->
-    <button onclick="clickedA('startA')">start point</button>
-    <button onclick="clickedA('finishA')">finish point</button>
-    <button onclick="clickedA('impassable')">impassable point</button>
-    <button onclick="searchA()">search path</button>
-    <button onclick="generation()">generate labirinth</button>
-    <button onclick="getTimeDelayA()">set TimeDelay</button>:
-    <input id="timeDelay" value="1" type="number"  min="1">
-</div>
-    <canvas id="canvasA"style=" margin-top: 25px;">
+    <div class="mSettings" id="settingsA">
+        N:
+        <input id="nA" value="10" type="number" max="100" min="2">
+        <button onclick="paintingA()">create empty labyrinth/clear labirinth</button>
+        <!--<button onclick="clearA()">clear</button>  -->
+        <button onclick="clickedA('startA')">start point</button>
+        <button onclick="clickedA('finishA')">finish point</button>
+        <button onclick="clickedA('impassable')">impassable point</button>
+        <button onclick="searchA()">search path</button>
+        <button onclick="generation()">generate labirinth</button>
+        <button onclick="getTimeDelayA()">set TimeDelay</button>:
+        <input id="timeDelay" value="1" type="number" min="1">
+    </div>
+    <canvas id="canvasA" style=" margin-top: 25px;">
     </canvas>
     <h1>Clastorization</h1>
-<div class="mSettings"id="settingsClastorization"> 
-    <button onclick="KmeansC()">k means</button>
-    K:
-    <input id="Kvalue" value="3" type="number"  min="1">
-</div>
-<canvas id="canvasClastorization"style=" margin-top: 25px;">
+    <div class="mSettings" id="settingsClastorization">
+        <button onclick="clearClust()">clear</button>
+        <button onclick="KmeansC()">k means</button> K:
+        <input id="Kvalue" value="3" type="number" min="1">
+    </div>
+    <canvas id="canvasClastorization" style=" margin-top: 25px;">
 </canvas>
     <script type="text/javascript" src="Jtest_body.js"></script>
     <script type="text/javascript" src="Clastorization.js"></script>
     <footer>footer</footer>
-</body> 
+</body>
+
 </html>
