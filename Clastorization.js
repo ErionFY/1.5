@@ -1,22 +1,22 @@
-var colorsClustor = ['Red', 'blue', 'DarkOrange', 'brown', 'BurlyWood',
-    'CadetBlue', 'Chartreuse', 'Chocolate', 'Coral', 'CornflowerBlue',
-    'Crimson', 'Cyan', 'DarkBlue', 'DarkGoldenRod', 'DarkGray',
+var colorsClustor = ['Red', 'blue', 'DarkOrange', 'brown', 'Yellow',
+    'Cyan', 'Chartreuse', 'Chocolate', 'Coral', 'CornflowerBlue',
+    'Crimson', 'CadetBlue', 'DarkBlue', 'DarkGoldenRod', 'DarkGray',
     'DarkGreen', 'DarkMagenta', 'DarkOliveGreen', 'blueviolet', 'DarkOrchid',
     'DarkRed', 'DarkSalmon', 'DarkSeaGreen', 'DeepPink', 'DeepSkyBlue',
     'DimGrey', 'FireBrick', 'Gold', 'Green', 'GreenYellow',
     'HotPink', 'IndianRed', 'Lavender', 'LightBlue', 'LightCoral',
     'LightCyan', 'LightGreen', 'LightPink', 'Maroon', 'MediumSpringGreen',
     'Olive', 'OrangeRed', 'Orchid', 'Peru', 'aqua',
-    'SaddleBrown', 'Yellow', 'SlateGray', 'Thistle', 'YellowGreen'
+    'SaddleBrown', 'BurlyWood', 'SlateGray', 'Thistle', 'YellowGreen'
 ];
-
+var dRadius = document.getElementById("RadiusM");
 var dK = document.getElementById("Kvalue");
 var cClastor = document.getElementById("canvasClastorization");
 var ctxC = cClastor.getContext("2d");
 var sizeC = canvasClastorization.height = canvasClastorization.width = 901;
 cClastor.addEventListener('click', pushPoint);
 var Points = [];
-var Radius = 5;
+var RadiusPaint = 4;
 
 function pushPoint(event) {
     var XCord = event.offsetX;
@@ -28,7 +28,7 @@ function pushPoint(event) {
 
 function PaintDot(coords, color) {
     ctxC.beginPath();
-    ctxC.arc(coords.x, coords.y, Radius, 0, 2 * Math.PI);
+    ctxC.arc(coords.x, coords.y, RadiusPaint, 0, 2 * Math.PI);
     ctxC.fillStyle = color;
     ctxC.fill();
 }
@@ -102,14 +102,59 @@ function KmeansC() { //k=50-максимум
         }
     }
 
+    //рисование
     for (var i = 0; i < NumberOfPoints; i++) {
         PaintDot(Points[i], colorsClustor[Points[i].Claster]);
     }
-
-
 }
 
 function clearClust() {
     Points = [];
-    ctxC.clearRect(0, 0, 901, 901);
+    ctxC.clearRect(0, 0, canvasClastorization.width, canvasClastorization.height);
+}
+
+function MShiftC() {
+    var NumberOfPoints = Points.length;
+    var RadiusM = parseInt(dRadius.value);
+    var centroids = [];
+    var CurPosCentroid;
+    var NextPosCentroid = { x: -1, y: -1, num: 0 };
+    for (var i = 0; i < NumberOfPoints; i++) {
+        CurPosCentroid = Points[i];
+
+        while (distBtwPoints(NextPosCentroid, CurPosCentroid) != 0) {
+
+            NextPosCentroid = { x: 0, y: 0, num: 0 };
+            for (var j = 0; j < NumberOfPoints; j++) {
+
+                if (distBtwPoints(CurPosCentroid, Points[j]) < RadiusM) {
+                    NextPosCentroid.x += Points[j].x;
+                    NextPosCentroid.y += Points[j].y;
+                    NextPosCentroid.num += 1;
+                }
+            }
+            CurPosCentroid.x = Math.floor(NextPosCentroid.x / NextPosCentroid.num);
+            CurPosCentroid.y = Math.floor(NextPosCentroid.y / NextPosCentroid.num);
+            PaintMShiftCentroid(CurPosCentroid, 'red', RadiusM);
+        }
+        if (!centroids.includes(CurPosCentroid)) centroids.push(CurPosCentroid)
+
+        Points[i].Claster = centroids.indexOf(CurPosCentroid);
+    }
+
+    for (var i = 0; i < NumberOfPoints; i++) {
+        PaintDot(Points[i], colorsClustor[Points[i].Claster]);
+    }
+
+}
+
+function PaintMShiftCentroid(point, color, radius) {
+    /*ctxC.beginPath();
+    ctxC.arc(point.x, point.y, radius, 0, 2 * Math.PI);
+    ctxC.strokeStyle = color;
+    ctxC.stroke();*/
+    ctxC.beginPath();
+    ctxC.arc(point.x, point.y, radius, 0, 2 * Math.PI);
+    ctxC.fillStyle = color;
+    ctxC.fill();
 }

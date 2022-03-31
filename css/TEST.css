@@ -1,26 +1,28 @@
 body {
-  background-color:rgb(77, 64, 88);
+    background-color: rgb(77, 64, 88);
 }
 
-header,footer
-{
-  text-align: center;
-  background-color: rgb(89, 74, 102);
+header,
+footer {
+    text-align: center;
+    background-color: rgb(89, 74, 102);
 }
 
 h1 {
-  text-align: center;
+    text-align: center;
 }
 
-.mSettings{
-  text-align: center;
+.mSettings {
+    text-align: center;
 }
 
-#canvasClastorization,#canvasA {
-  padding: 0;
-  margin: auto;
-  display: block;
-  border:0px solid rgb(35, 35, 61);
-  background-color:rgb(209, 209, 209);
+#canvasClastorization,
+#canvasA,
+#canvasAntSimulation,
+#canvasGeneticAlg {
+    padding: 0;
+    margin: auto;
+    display: block;
+    border: 0px solid rgb(35, 35, 61);
+    background-color: rgb(209, 209, 209);
 }
-

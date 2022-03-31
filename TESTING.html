@@ -23,16 +23,28 @@
         <button onclick="getTimeDelayA()">set TimeDelay</button>:
         <input id="timeDelay" value="1" type="number" min="1">
     </div>
-    <canvas id="canvasA" style=" margin-top: 25px;">
+    <canvas id="canvasA" style=" margin-top: 10px;">
     </canvas>
     <h1>Clastorization</h1>
     <div class="mSettings" id="settingsClastorization">
         <button onclick="clearClust()">clear</button>
         <button onclick="KmeansC()">k means</button> K:
         <input id="Kvalue" value="3" type="number" min="1">
+        <button onclick="MShiftC()">M-shift</button> Radius:
+        <input id="RadiusM" value="25" type="number" min="1">
     </div>
     <canvas id="canvasClastorization" style=" margin-top: 25px;">
 </canvas>
+    <h1>Genetic Algorithm</h1>
+    <div id="GeneticSettings" class="mSettings">
+        <button onclick="clearGenetic()">reset</button>
+        <button onclick="">Calculate</button>
+    </div>
+    <canvas id="canvasGeneticAlg" style=" margin-top: 25px;"></canvas>
+    <h1>Ant Simulation</h1>
+    <canvas id="canvasAntSimulation" style=" margin-top: 25px;"></canvas>
+    <script type="text/javascript" src="GeneticAlgorithm.js"></script>
+    <script type="text/javascript" src="AntSimulation.js"></script>
     <script type="text/javascript" src="Jtest_body.js"></script>
     <script type="text/javascript" src="Clastorization.js"></script>
     <footer>footer</footer>
