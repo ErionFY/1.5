@@ -145,13 +145,17 @@ function run(n){
     var genomes=createFirstGeneration();
     for(i=0;i<generationCount;i++){
         genomes=selection(genomes);
-
+        chooseBestWay(genomes);
         parents=randomArray(n);
         for(j=0;j<n-1;j+=2){
             cross(genomes,genomes[parent[j]],genomes[parent[j+1]]);
         }
     }
 
+    return chooseBestWay(genomes);
+}
+
+function chooseBestWay(genomes){
     var bestWay=genomes[0];
     var bestFF=fitnessFunction(genomes[0]);
     for(i=1;i<n;i++){
@@ -160,7 +164,6 @@ function run(n){
             bestWay=genomes[i];
         }
     }
-    
     return bestWay;
 }
 
