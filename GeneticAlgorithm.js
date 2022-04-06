@@ -145,14 +145,14 @@ function run(n) {
     var genomes = createFirstGeneration();
     for (i = 0; i < generationCount; i++) {
         genomes = selection(genomes);
-        chooseBestWay(genomes);
+        PaintPath(chooseBestWay(genomes));
         parents = randomArray(n);
         for (j = 0; j < n - 1; j += 2) {
             cross(genomes, genomes[parent[j]], genomes[parent[j + 1]]);
         }
     }
 
-    return chooseBestWay(genomes);
+    PaintPath(chooseBestWay(genomes));
 }
 
 function chooseBestWay(genomes) {
