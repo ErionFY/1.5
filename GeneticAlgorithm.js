@@ -1,5 +1,5 @@
 const NUMBER_OF_GENES = 5;
-
+var generationCountD = document.getElementById("Mutationchance")
 var mutationChanceD = document.getElementById("Mutationchance")
 var cGA = document.getElementById("canvasGeneticAlg")
 var ctxGA = cGA.getContext("2d");
@@ -188,11 +188,12 @@ function calcDistance(point1, point2) {
 
 function Calculate() {
     GetMutationChance();
+    GetGenerationCount()
     run(Vertices.length);
 }
 
 function GetMutationChance() {
-    mutationChance = mutationChanceD.value;
+    mutationChance = parseInt(mutationChanceD.value);
 }
 
 function PaintPath(path, color) //var path = [0, 2, 1, 5, 4, 3];var color = "red";
@@ -206,4 +207,8 @@ function PaintPath(path, color) //var path = [0, 2, 1, 5, 4, 3];var color = "red
         ctxGA.lineTo(Vertices[path[(i + 1) % sizePath]].x, Vertices[path[(i + 1) % sizePath]].y);
     }
     ctxGA.stroke();
+}
+
+function GetGenerationCount() {
+    generationCount = parseInt(generationCountD.value);
 }
