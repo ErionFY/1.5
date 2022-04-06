@@ -1,6 +1,6 @@
 const NUMBER_OF_GENES = 5;
 
-
+var mutationChanceD = document.getElementById("Mutationchance")
 var cGA = document.getElementById("canvasGeneticAlg")
 var ctxGA = cGA.getContext("2d");
 var sizeGA = canvasGeneticAlg.height = canvasGeneticAlg.width = 901;
@@ -145,14 +145,14 @@ function run(n) {
     var genomes = createFirstGeneration();
     for (i = 0; i < generationCount; i++) {
         genomes = selection(genomes);
-        chooseBestWay(genomes);
+        PaintPath(chooseBestWay(genomes));
         parents = randomArray(n);
         for (j = 0; j < n - 1; j += 2) {
             cross(genomes, genomes[parent[j]], genomes[parent[j + 1]]);
         }
     }
 
-    return chooseBestWay(genomes);
+    PaintPath(chooseBestWay(genomes));
 }
 
 function chooseBestWay(genomes) {
@@ -170,7 +170,7 @@ function chooseBestWay(genomes) {
 function createMatrix(n) {
     matrix = new Array();
     for (var i = 0; i < n; i++) {
-        matrixA[i] = new Array;
+        matrix[i] = new Array;
     }
 
     for (i = 0; i < n; i++) {
@@ -182,7 +182,8 @@ function createMatrix(n) {
 }
 
 function calcDistance(point1, point2) {
-    return Math.sqrt(Math.pow(Vertices[point1].x - Vertices[point2].x, 2) + Math.pow(Vertices[point1].y - Vertices[point2].y, 2));
+    var D = Math.sqrt(Math.pow(Vertices[point1].x - Vertices[point2].x, 2) + Math.pow(Vertices[point1].y - Vertices[point2].y, 2));
+    return D;
 }
 
 function Calculate() {
