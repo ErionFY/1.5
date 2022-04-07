@@ -141,17 +141,18 @@ function fitnessFunction(genom) {
     distance += calcDistance(genom[0], genom[genom.length - 1]);
 }
 
-function run(n) {
+async function run(n) {
     matrix = createMatrix(n);
     var genomes = createFirstGeneration(n);
-    var bestWayL=1000000;
+    var bestWayL = 1000000;
 
     for (var i = 0; i < generationCount; i++) {
         genomes = selection(genomes, n);
-        PaintPath(chooseBestWay(genomes));
+        await sleep(100);
+        PaintPath(chooseBestWay(genomes), "black");
 
-        if(fitnessFunction(chooseBestWay(genomes))<bestWayL){
-            bestWayL=fitnessFunction(chooseBestWay(genomes));
+        if (fitnessFunction(chooseBestWay(genomes)) < bestWayL) {
+            bestWayL = fitnessFunction(chooseBestWay(genomes));
         }
 
         parent = randomArray(n);
@@ -159,10 +160,10 @@ function run(n) {
             cross(genomes, genomes[parent[j]], genomes[parent[j + 1]]);
         }
     }
+    await sleep(100);
+    PaintPath(chooseBestWay(genomes), "red");
 
-    PaintPath(chooseBestWay(genomes));
-
-    if(bestWayL<fitnessFunction(chooseBestWay(genomes))){
+    if (bestWayL < fitnessFunction(chooseBestWay(genomes))) {
         console.log(bestWayL);
         console.log(fitnessFunction(chooseBestWay(genomes)));
     }
@@ -209,9 +210,12 @@ function GetMutationChance() {
     mutationChance = parseInt(mutationChanceD.value);
 }
 
-function PaintPath(path, color) //var path = [0, 2, 1, 5, 4, 3];var color = "red";
+async function PaintPath(path, color) //var path = [0, 2, 1, 5, 4, 3];var color = "red";
 {
+    ctxGA.clearRect(0, 0, canvasClastorization.width, canvasClastorization.height);
     var sizePath = path.length;
+    var NumOfVertices = Vertices.length;
+    for (var i = 0; i < NumOfVertices; i++) { repaintPoint(Vertices[i].x, Vertices[i].y); }
     ctxGA.beginPath();
     ctxGA.strokeStyle = color;
     ctxGA.lineWidth = "5";
@@ -224,4 +228,11 @@ function PaintPath(path, color) //var path = [0, 2, 1, 5, 4, 3];var color = "red
 
 function GetGenerationCount() {
     generationCount = parseInt(generationCountD.value);
+}
+
+function repaintPoint(xCord, yCord) {
+    ctxGA.beginPath();
+    ctxGA.arc(xCord, yCord, RadiusOfPoint, 0, 2 * Math.PI);
+    ctxGA.fillStyle = 'green';
+    ctxGA.fill();
 }
