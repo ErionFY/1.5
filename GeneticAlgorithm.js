@@ -1,4 +1,4 @@
-var generationCountD = document.getElementById("Mutationchance")
+var generationCountD = document.getElementById("NumberofMutations")
 var mutationChanceD = document.getElementById("Mutationchance")
 var cGA = document.getElementById("canvasGeneticAlg")
 var ctxGA = cGA.getContext("2d");
@@ -148,7 +148,7 @@ async function run(n) {
 
     for (var i = 0; i < generationCount; i++) {
         genomes = selection(genomes, n);
-        await sleep(100);
+        await sleep(1);
         PaintPath(chooseBestWay(genomes), "black");
 
         if (fitnessFunction(chooseBestWay(genomes)) < bestWayL) {
@@ -160,7 +160,7 @@ async function run(n) {
             cross(genomes, genomes[parent[j]], genomes[parent[j + 1]]);
         }
     }
-    await sleep(100);
+    await sleep(1);
     PaintPath(chooseBestWay(genomes), "red");
 
     if (bestWayL < fitnessFunction(chooseBestWay(genomes))) {
@@ -201,9 +201,11 @@ function calcDistance(point1, point2) {
 }
 
 function Calculate() {
+    cGA.removeEventListener('click', CreatePoint);
     GetMutationChance();
     GetGenerationCount()
     run(Vertices.length);
+    cGA.addEventListener('click', CreatePoint);
 }
 
 function GetMutationChance() {
