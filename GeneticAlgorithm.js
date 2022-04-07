@@ -1,4 +1,3 @@
-const NUMBER_OF_GENES = 5;
 var generationCountD = document.getElementById("Mutationchance")
 var mutationChanceD = document.getElementById("Mutationchance")
 var cGA = document.getElementById("canvasGeneticAlg")
@@ -44,33 +43,35 @@ function randomInt(min, max) {
 
 function randomArray(n) {
     var array = [];
-    for (i = 0; i < n; i++) {
+    for (var i = 0; i < n; i++) {
         array.push(i);
     }
 
     var randomArr = [];
-    for (i = n - 1; i >= 0; i--) {
+    for (var i = n - 1; i >= 0; i--) {
         index = randomInt(0, i);
         randomArr.push(array[index]);
         array.splice(index, 1);
     }
+
+    return randomArr;
 }
 
 function createFirstGeneration(n) {
 
     var genomes = [];
-    for (i = 0; i < NUMBER_OF_GENES; i++) {
+    for (var i = 0; i < n; i++) {
         genomes.push(randomArray(n));
     }
     return genomes;
 }
 
-function selection(genomes) {
+function selection(genomes, n) {
     var offsprignsGenomes = []; // Потомки
 
-    for (i = 0; i < NUMBER_OF_GENES; i++) {
-        var genome1 = genomes[randomInt(0, NUMBER_OF_GENES - 1)];
-        var genome2 = genomes[randomInt(0, NUMBER_OF_GENES - 1)];
+    for (var i = 0; i < n; i++) {
+        var genome1 = genomes[randomInt(0, n - 1)];
+        var genome2 = genomes[randomInt(0, n - 1)];
 
 
         var fitness1 = fitnessFunction(genome1);
@@ -88,10 +89,10 @@ function selection(genomes) {
 
 function createOffspring(genom1, genom2, point) {
     var result = [];
-    for (i = 0; i <= point; i++) {
+    for (var i = 0; i <= point; i++) {
         result.push(genom1[i]);
     }
-    for (i = point + 1; i < genom1.length; i++) {
+    for (var i = point + 1; i < genom1.length; i++) {
         if (result.indexOf(genom2[i]) == -1) {
             result.push(genom2[i]);
         } else {
@@ -106,6 +107,7 @@ function createOffspring(genom1, genom2, point) {
             }
         }
     }
+    return result;
 }
 
 function cross(genomes, genom1, genom2) {
@@ -133,7 +135,7 @@ function mutation(genom) {
 
 function fitnessFunction(genom) {
     var distance = 0;
-    for (i = 0; i < genom.length - 1; i++) {
+    for (var i = 0; i < genom.length - 1; i++) {
         distance += matrix[genom[i]][genom[i + 1]];
     }
     distance += calcDistance(genom[0], genom[genom.length - 1]);
@@ -141,24 +143,35 @@ function fitnessFunction(genom) {
 
 function run(n) {
     matrix = createMatrix(n);
+    var genomes = createFirstGeneration(n);
+    var bestWayL=1000000;
 
-    var genomes = createFirstGeneration();
-    for (i = 0; i < generationCount; i++) {
-        genomes = selection(genomes);
+    for (var i = 0; i < generationCount; i++) {
+        genomes = selection(genomes, n);
         PaintPath(chooseBestWay(genomes));
-        parents = randomArray(n);
-        for (j = 0; j < n - 1; j += 2) {
+
+        if(fitnessFunction(chooseBestWay(genomes))<bestWayL){
+            bestWayL=fitnessFunction(chooseBestWay(genomes));
+        }
+
+        parent = randomArray(n);
+        for (var j = 0; j < n - 1; j++) {
             cross(genomes, genomes[parent[j]], genomes[parent[j + 1]]);
         }
     }
 
     PaintPath(chooseBestWay(genomes));
+
+    if(bestWayL<fitnessFunction(chooseBestWay(genomes))){
+        console.log(bestWayL);
+        console.log(fitnessFunction(chooseBestWay(genomes)));
+    }
 }
 
 function chooseBestWay(genomes) {
     var bestWay = genomes[0];
     var bestFF = fitnessFunction(genomes[0]);
-    for (i = 1; i < n; i++) {
+    for (var i = 1; i < n; i++) {
         if (fitnessFunction(genomes[i]) < bestFF) {
             bestFF = fitnessFunction(genomes[i]);
             bestWay = genomes[i];
@@ -173,8 +186,8 @@ function createMatrix(n) {
         matrix[i] = new Array;
     }
 
-    for (i = 0; i < n; i++) {
-        for (j = 0; j < n; j++) {
+    for (var i = 0; i < n; i++) {
+        for (var j = 0; j < n; j++) {
             matrix[i][j] = calcDistance(i, j);
         }
     }
@@ -182,8 +195,8 @@ function createMatrix(n) {
 }
 
 function calcDistance(point1, point2) {
-    var D = Math.sqrt(Math.pow(Vertices[point1].x - Vertices[point2].x, 2) + Math.pow(Vertices[point1].y - Vertices[point2].y, 2));
-    return D;
+    var distance = Math.sqrt(Math.pow(Vertices[point1].x - Vertices[point2].x, 2) + Math.pow(Vertices[point1].y - Vertices[point2].y, 2));
+    return distance;
 }
 
 function Calculate() {
