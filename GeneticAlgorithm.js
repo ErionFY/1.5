@@ -148,7 +148,7 @@ async function run(n) {
 
     for (var i = 0; i < generationCount; i++) {
         genomes = selection(genomes, n);
-        await sleep(1);
+        await sleep(10);
         PaintPath(chooseBestWay(genomes), "black");
 
         if (fitnessFunction(chooseBestWay(genomes)) < bestWayL) {
@@ -160,7 +160,7 @@ async function run(n) {
             cross(genomes, genomes[parent[j]], genomes[parent[j + 1]]);
         }
     }
-    await sleep(1);
+    await sleep(10);
     PaintPath(chooseBestWay(genomes), "red");
 
     if (bestWayL < fitnessFunction(chooseBestWay(genomes))) {
