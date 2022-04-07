@@ -1,3 +1,4 @@
+const NUMBER_OF_GENES=5;
 var generationCountD = document.getElementById("Mutationchance")
 var mutationChanceD = document.getElementById("Mutationchance")
 var cGA = document.getElementById("canvasGeneticAlg")
@@ -60,24 +61,25 @@ function randomArray(n) {
 function createFirstGeneration(n) {
 
     var genomes = [];
-    for (var i = 0; i < n; i++) {
+    for (var i = 0; i < NUMBER_OF_GENES; i++) {
         genomes.push(randomArray(n));
     }
     return genomes;
 }
 
-function selection(genomes, n) {
+/*
+function selection(genomes) {
     var offsprignsGenomes = []; // Потомки
 
-    for (var i = 0; i < n; i++) {
-        var genome1 = genomes[randomInt(0, n - 1)];
-        var genome2 = genomes[randomInt(0, n - 1)];
+    for (var i = 0; i < genomes.length; i++) {
+        var genome1 = genomes[randomInt(0, genomes.length - 1)];
+        var genome2 = genomes[randomInt(0, genomes.length - 1)];
 
 
         var fitness1 = fitnessFunction(genome1);
         var fitness2 = fitnessFunction(genome2);
 
-        if (fitness1 > fitness2) {
+        if (fitness1 < fitness2) {
             offsprignsGenomes.push(genome1);
         } else {
             offsprignsGenomes.push(genome2);
@@ -85,6 +87,22 @@ function selection(genomes, n) {
     }
     return offsprignsGenomes;
 
+}
+*/
+
+function selection(genomes){
+    var fitness=[];
+    for(var i=0;i<genomes.length;i++){
+        fitness.push(fitnessFunction(genomes[i]));
+    }
+    fitness.sort();
+    var offsprignsGenomes=[];
+    for(var i=0;i<genomes.length;i++){
+        if(fitness.indexOf(fitnessFunction(genomes[i]))<NUMBER_OF_GENES){
+            offsprignsGenomes.push(genomes[i]);
+        }
+    }
+    return offsprignsGenomes;
 }
 
 function createOffspring(genom1, genom2, point) {
@@ -138,7 +156,8 @@ function fitnessFunction(genom) {
     for (var i = 0; i < genom.length - 1; i++) {
         distance += matrix[genom[i]][genom[i + 1]];
     }
-    distance += calcDistance(genom[0], genom[genom.length - 1]);
+    distance += matrix[genom[0]][genom[genom.length-1]];
+    return distance;
 }
 
 async function run(n) {
@@ -147,16 +166,16 @@ async function run(n) {
     var bestWayL = 1000000;
 
     for (var i = 0; i < generationCount; i++) {
-        genomes = selection(genomes, n);
-        await sleep(100);
+        genomes = selection(genomes);
+        await sleep(10);
         PaintPath(chooseBestWay(genomes), "black");
 
         if (fitnessFunction(chooseBestWay(genomes)) < bestWayL) {
             bestWayL = fitnessFunction(chooseBestWay(genomes));
         }
 
-        parent = randomArray(n);
-        for (var j = 0; j < n - 1; j++) {
+        parent = randomArray(NUMBER_OF_GENES);
+        for (var j = 0; j < parent.length-1; j++) {
             cross(genomes, genomes[parent[j]], genomes[parent[j + 1]]);
         }
     }
