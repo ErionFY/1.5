@@ -10,6 +10,7 @@ var mutationChance;
 var generationCount;
 var n;
 var matrix;
+const NUMBER_OF_GENES=5;
 
 function CreatePoint(event) {
     var xCord = event.offsetX;
@@ -66,7 +67,7 @@ function createFirstGeneration(n) {
     return genomes;
 }
 
-/*
+
 function selection(genomes) {
     var offsprignsGenomes = []; // Потомки
 
@@ -87,8 +88,8 @@ function selection(genomes) {
     return offsprignsGenomes;
 
 }
-*/
 
+/*
 function selection(genomes){
     var fitness=[];
     for(var i=0;i<genomes.length;i++){
@@ -103,6 +104,7 @@ function selection(genomes){
     }
     return offsprignsGenomes;
 }
+*/
 
 function createOffspring(genom1, genom2, point) {
     var result = [];
