@@ -112,3 +112,67 @@ function clearClust() {
     Points = [];
     ctxC.clearRect(0, 0, canvasClastorization.width, canvasClastorization.height);
 }
+
+function Hierarhic() {
+    var koef = 1.2;
+    var NumOfPoints = Points.length;
+    for (var i = 0; i < NumOfPoints; i++) {
+        Points[i].Claster = i;
+    }
+    var DistbtwClusters = new Array(NumOfPoints);
+    for (var i = 0; i < NumOfPoints; i++) {
+        DistbtwClusters[i] = 0;
+    }
+    var Dist = MatrixOfDist(NumOfPoints);
+    var minDist = { i: "", j: "", Distance: 10000 };
+    var CurMinDist = 0;
+    var PrevMinDist = 0
+    while (true) {
+        //найти минимальную дистанцию между объектов разных кластеров
+        for (var i = 1; i < NumOfPoints; i++) {
+            for (var j = 0; j < i; j++) {
+                if (Points[i].Claster != Points[j].Claster) {
+                    if (Dist[i][j] < minDist.Distance * koef && PrevMinDist < Dist[i][j]) {
+                        minDist.Distance = Dist[i][j];
+                        minDist.i = i;
+                        minDist.j = j;
+                    }
+                }
+            }
+        }
+
+        CurMinDist = minDist.Distance;
+
+
+        //объединить-Изменить значение кластера с большим значением на меньшееe ,
+        //если предыдущее наибольшее значение дистанции соответствующегих кластера не превосходит текущее значение умноженное на коэфициент
+        //то объединяем.
+
+        for (var l = 0; l < NumOfPoints; l++) {
+            if (Points[l].Claster == Points[minDist.i].Claster) {
+                Points[l].Claster = Points[minDist.j].Claster
+            }
+        }
+        if (PrevMinDist * (koef) > CurMinDist) { break; }
+        PrevMinDist = CurMinDist;
+
+        //объединять пока не выполнится условие.
+    }
+
+    //рисование
+    for (var i = 0; i < NumOfPoints; i++) {
+        PaintDot(Points[i], colorsClustor[Points[i].Claster]);
+    }
+}
+
+function MatrixOfDist(NumberOfPoints) {
+    var matrixDist = new Array();
+    for (var i = 0; i < NumberOfPoints; i++) {
+        matrixDist[i] = new Array;
+        for (var j = 0; j < NumberOfPoints; j++) {
+            matrixDist[i][j] = distBtwPoints(Points[i], Points[j]);
+        }
+    }
+    return matrixDist
+
+}

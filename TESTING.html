@@ -30,17 +30,16 @@
         <button onclick="clearClust()">clear</button>
         <button onclick="KmeansC()">k means</button> K:
         <input id="Kvalue" value="3" type="number" min="1">
-        <button onclick="MShiftC()">M-shift</button> Radius:
-        <input id="RadiusM" value="25" type="number" min="1">
+        <button onclick="Hierarhic()">Hierarhic</button>
     </div>
     <canvas id="canvasClastorization" style=" margin-top: 25px;">
 </canvas>
     <h1>Genetic Algorithm</h1>
     <div id="GeneticSettings" class="mSettings">
-        <button onclick="clearGenetic()">reset</button>
-        <button onclick="Calculate()">Calculate</button> generationCount:
+        <button onclick="clearGeneticGA()">reset</button>
+        <button onclick="CalculateGA()">Calculate</button> generationCount:
         <input id="NumberofMutations" value="500" type="number" min="1">
-        <button onclick="GetMutationChance()">set Mutationchance</button>:
+        <button onclick="GetMutationChanceGA()">set Mutationchance</button>:
         <input id="Mutationchance" value="50" type="number" min="0" max="100">
     </div>
     <canvas id="canvasGeneticAlg" style=" margin-top: 25px;"></canvas>
@@ -48,6 +47,16 @@
     <div id="AntSSettings" class="mSettings">
         <button onclick="CalculateAS()">Calculate</button>
         <button onclick="clearAntS()">reset</button>
+    </div>
+    <div class="mSettings"> Number of Ants:
+        <input id="NumberOfAnts" value="10" type="number" min="0" max="100">Num of Iterations:
+        <input id="IterNum" value="500" type="number" min="1"> basic pheromone:
+        <input id="BasePheromon" value="15" type="number" min="1" max="100">Wheight Coef:
+        <input id="WheightCoef" value="0.5" type="number" min="0.00" max="1.00"> Pheromons Coef:
+        <input id="PheromonCoef" value="0.5" type="number" min="0" max="1"> Pheromons Power:
+        <input id="PheromonePower" value="10" type="number" min="0">Evaporation Coef:
+        <input id="EvaporationCoef" value="0.85" type="number" min="0" max="1">
+
     </div>
     <canvas id="canvasAntSimulation" style=" margin-top: 25px;"></canvas>
     <script type="text/javascript" src="GeneticAlgorithm.js"></script>
