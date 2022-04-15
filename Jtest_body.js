@@ -311,6 +311,61 @@ function generateMaze(matrix, n) {
     }
 }
 
+function generateMazeSecond(matrix, n) {
+    var visited = new Array();
+    for (var i = 0; i < n; i++) {
+        visited[i] = new Array;
+        for (var j = 0; j < n; j++) {
+            visited[i][j] = false;
+        }
+    }
+
+    for (var i = 0; i < n; i++) {
+        for (var j = 0; j < n; j++) {
+            matrix[i][j] = WALL;
+        }
+    }
+    let x = randomIntGA(0, n - 1);
+    let y = randomIntGA(0, n - 1);
+    visited[x][y]=true;
+    matrix[x][y] = PASS;
+    var current;
+    let walls = adjacentCellsA({ x: x, y: y }, n);
+    let passCount;
+
+
+    while (walls.length != 0) {
+        let index = randomIntGA(0, walls.length - 1);
+        current = walls[index];
+        adjacentCells = adjacentCellsA(current, n);
+        passCount=0;
+            for(var i=-1;i<2;i++){
+                for(var j=-1;j<2;j++){
+                    if(check(current,i,j,n) && matrix[current.x+i][current.y+j]==PASS){
+                        passCount++;
+                    }
+                }
+            }
+            if(passCount<4){
+                matrix[current.x][current.y] = PASS;
+                adjacentCellsA(current, n).forEach(function(cell) {
+                if (!visited[cell.x][cell.y]) {
+                    walls.push(cell);
+                    visited[cell.x][cell.y] = true;
+                }
+            });
+        }
+        
+        walls.splice(index, 1);
+    }
+}
+
+function check(current,x,y,n){
+    if(current.x+x<n && current.x+x>=0 && current.y+y<n && current.y+y>=0){
+        return true;
+    }
+}
+
 function generation() {
     paintingA();
     generateMaze(matrixA, NA);
