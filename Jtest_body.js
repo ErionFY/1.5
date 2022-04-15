@@ -302,6 +302,13 @@ function generateMaze(matrix, n) {
 
         walls.splice(index, 1);
     }
+
+    for(var i=0;i<n;i++){
+        matrix[0][i]=WALL;
+        matrix[n-1][i]=WALL;
+        matrix[i][0]=WALL;
+        matrix[i][n-1]=WALL;
+    }
 }
 
 function generation() {

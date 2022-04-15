@@ -204,7 +204,7 @@ function chooseBestWayGA(genomes) {
 function createMatrixGA(n) {
     matrixGA = new Array();
     for (var i = 0; i < n; i++) {
-        matrixGA[i] = new Array;
+        matrixGA[i] = new Array();
     }
 
     for (var i = 0; i < n; i++) {
