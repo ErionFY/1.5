@@ -61,59 +61,61 @@ function clearAntS() {
     ctx.clearRect(0, 0, canvasAntSimulation.width, canvasAntSimulation.height);
 }
 
-function CalculateAS() {
+async function CalculateAS() {
     GetValues();
     weightMatrix = createWeightMatrix();
     pheroMatrix = createPheroMatrix(); // Matrix of pheromones=
     var tabuList;
     var delta;
-    var minLength=10**10;
+    var minLength = 10 ** 10;
     var bestPath;
     var pathList;
 
     for (var ind = 0; ind < iterNumber; ind++) {
-        pathList=[];
+        pathList = [];
         for (var i = 0; i < antNumber; i++) {
             tabuList = [];
             tabuList.push(randomIntGA(0, n - 1));
             for (var j = 1; j < n; j++) {
-                tabuList.push(nextVertex(tabuList, tabuList[tabuList.length-1]));
+                tabuList.push(nextVertex(tabuList, tabuList[tabuList.length - 1]));
             }
             pathList.push(tabuList);
 
-            if (minLength>pathLength(tabuList)){
-                minLength=pathLength(tabuList);
-                bestPath=tabuList;
+            if (minLength > pathLength(tabuList)) {
+                minLength = pathLength(tabuList);
+                bestPath = tabuList;
             }
 
         }
 
         addPheromones(pathList);
-        PaintPath(bestPath,"black");
+        await sleep(50);
+        PaintPath(bestPath, "black");
 
     }
-    PaintPath(bestPath,"red");
+    await sleep(50);
+    PaintPath(bestPath, "red");
 }
 
-function addPheromones(pathList){
+function addPheromones(pathList) {
     var path;
-    for(i=0;i<antNumber;i++){
-        path=pathList[i];
+    for (i = 0; i < antNumber; i++) {
+        path = pathList[i];
 
         delta = pheromonesPower / pathLength(path);
-            for (var j = 0; j < n - 1; j++) {
-                pheroMatrix[path[j]][path[j + 1]] += delta;
-                pheroMatrix[path[j + 1]][path[j]] += delta;
-            }
-            pheroMatrix[path[0]][path[n - 1]] += delta;
-            pheroMatrix[path[n - 1]][path[0]] += delta;
+        for (var j = 0; j < n - 1; j++) {
+            pheroMatrix[path[j]][path[j + 1]] += delta;
+            pheroMatrix[path[j + 1]][path[j]] += delta;
+        }
+        pheroMatrix[path[0]][path[n - 1]] += delta;
+        pheroMatrix[path[n - 1]][path[0]] += delta;
     }
 }
 
 function createPheroMatrix() {
-    matrix=new Array(n);
+    matrix = new Array(n);
     for (var i = 0; i < n; i++) {
-        matrix[i]=new Array(n);
+        matrix[i] = new Array(n);
         for (var j = 0; j < n; j++) {
             if (i != j) {
                 matrix[i][j] = basePhero;

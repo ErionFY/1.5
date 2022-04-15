@@ -9,14 +9,14 @@ var colorsClustor = ['Red', 'blue', 'DarkOrange', 'brown', 'Yellow',
     'Olive', 'OrangeRed', 'Orchid', 'Peru', 'aqua',
     'SaddleBrown', 'BurlyWood', 'SlateGray', 'Thistle', 'YellowGreen'
 ];
-var dRadius = document.getElementById("RadiusM");
 var dK = document.getElementById("Kvalue");
 var cClastor = document.getElementById("canvasClastorization");
 var ctxC = cClastor.getContext("2d");
 var sizeC = canvasClastorization.height = canvasClastorization.width = 901;
 cClastor.addEventListener('click', pushPoint);
 var Points = [];
-var RadiusPaint = 4;
+var RadiusPaint = 6;
+var DKoef = document.getElementById("HierarhKoef");
 
 function pushPoint(event) {
     var XCord = event.offsetX;
@@ -114,25 +114,24 @@ function clearClust() {
 }
 
 function Hierarhic() {
-    var koef = 1.2;
+    var koef = Number(DKoef.value) / 100;
     var NumOfPoints = Points.length;
     for (var i = 0; i < NumOfPoints; i++) {
         Points[i].Claster = i;
     }
-    var DistbtwClusters = new Array(NumOfPoints);
-    for (var i = 0; i < NumOfPoints; i++) {
-        DistbtwClusters[i] = 0;
-    }
+
     var Dist = MatrixOfDist(NumOfPoints);
-    var minDist = { i: "", j: "", Distance: 10000 };
+    var minDist = { i: "", j: "", Distance: 100000 };
     var CurMinDist = 0;
     var PrevMinDist = 0
+    var count = 0;
     while (true) {
-        //найти минимальную дистанцию между объектов разных кластеров
+        minDist.Distance = 100000;
+
         for (var i = 1; i < NumOfPoints; i++) {
             for (var j = 0; j < i; j++) {
                 if (Points[i].Claster != Points[j].Claster) {
-                    if (Dist[i][j] < minDist.Distance * koef && PrevMinDist < Dist[i][j]) {
+                    if (Dist[i][j] < minDist.Distance && PrevMinDist < Dist[i][j]) {
                         minDist.Distance = Dist[i][j];
                         minDist.i = i;
                         minDist.j = j;
@@ -143,21 +142,20 @@ function Hierarhic() {
 
         CurMinDist = minDist.Distance;
 
+        if (PrevMinDist * koef < CurMinDist && PrevMinDist != 0) { break; }
 
-        //объединить-Изменить значение кластера с большим значением на меньшееe ,
-        //если предыдущее наибольшее значение дистанции соответствующегих кластера не превосходит текущее значение умноженное на коэфициент
-        //то объединяем.
-
+        var ClustValue = Points[minDist.i].Claster;
         for (var l = 0; l < NumOfPoints; l++) {
-            if (Points[l].Claster == Points[minDist.i].Claster) {
+            if (Points[l].Claster == ClustValue) {
                 Points[l].Claster = Points[minDist.j].Claster
             }
         }
-        if (PrevMinDist * (koef) > CurMinDist) { break; }
-        PrevMinDist = CurMinDist;
 
-        //объединять пока не выполнится условие.
+        PrevMinDist = CurMinDist;
+        count++;
+        if (count === NumOfPoints - 2) { break; }
     }
+
 
     //рисование
     for (var i = 0; i < NumOfPoints; i++) {
@@ -168,11 +166,15 @@ function Hierarhic() {
 function MatrixOfDist(NumberOfPoints) {
     var matrixDist = new Array();
     for (var i = 0; i < NumberOfPoints; i++) {
-        matrixDist[i] = new Array;
+        matrixDist[i] = new Array();
         for (var j = 0; j < NumberOfPoints; j++) {
             matrixDist[i][j] = distBtwPoints(Points[i], Points[j]);
         }
     }
     return matrixDist
+
+}
+
+function KmeansCriteriy() {
 
 }
