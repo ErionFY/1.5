@@ -67,36 +67,60 @@ function CalculateAS() {
     pheroMatrix = createPheroMatrix(); // Matrix of pheromones=
     var tabuList;
     var delta;
+    var minLength=10**10;
+    var bestPath;
+    var pathList;
 
     for (var ind = 0; ind < iterNumber; ind++) {
+        pathList=[];
         for (var i = 0; i < antNumber; i++) {
             tabuList = [];
-            tabuList.push(path[i][randomIntGA(0, n - 1)]);
+            tabuList.push(randomIntGA(0, n - 1));
             for (var j = 1; j < n; j++) {
-                tabuList.push(nextVertex(tabuList, tabuList.pop()));
+                tabuList.push(nextVertex(tabuList, tabuList[tabuList.length-1]));
+            }
+            pathList.push(tabuList);
+
+            if (minLength>pathLength(tabuList)){
+                minLength=pathLength(tabuList);
+                bestPath=tabuList;
             }
 
-            delta = pheromonesPower / pathLength(tabuList);
-            for (var j = 0; j < n - 1; j++) {
-                pheroMatrix[tabuList[j]][tabuList[j + 1]] += delta;
-                pheroMatrix[tabuList[j + 1]][tabuList[j]] += delta;
-            }
-            pheroMatrix[tabuList[0]][tabuList[n - 1]] += delta;
-            pheroMatrix[tabuList[n - 1]][tabuList[0]] += delta;
         }
 
+        addPheromones(pathList);
+        PaintPath(bestPath,"black");
 
+    }
+    PaintPath(bestPath,"red");
+}
+
+function addPheromones(pathList){
+    var path;
+    for(i=0;i<antNumber;i++){
+        path=pathList[i];
+
+        delta = pheromonesPower / pathLength(path);
+            for (var j = 0; j < n - 1; j++) {
+                pheroMatrix[path[j]][path[j + 1]] += delta;
+                pheroMatrix[path[j + 1]][path[j]] += delta;
+            }
+            pheroMatrix[path[0]][path[n - 1]] += delta;
+            pheroMatrix[path[n - 1]][path[0]] += delta;
     }
 }
 
 function createPheroMatrix() {
+    matrix=new Array(n);
     for (var i = 0; i < n; i++) {
+        matrix[i]=new Array(n);
         for (var j = 0; j < n; j++) {
             if (i != j) {
-                pheroMatrix[i][j] = basePhero;
+                matrix[i][j] = basePhero;
             }
         }
     }
+    return matrix;
 }
 
 function evaporation() {
