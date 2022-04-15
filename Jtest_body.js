@@ -252,7 +252,7 @@ function getTimeDelayA() {
     timeDelA = timeDelAd.value;
 }
 
-function randomInt(min, max) {
+function randomIntGA(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -270,8 +270,8 @@ function generateMaze(matrix, n) {
             matrix[i][j] = WALL;
         }
     }
-    let x = randomInt(0, n - 1);
-    let y = randomInt(0, n - 1);
+    let x = randomIntGA(0, n - 1);
+    let y = randomIntGA(0, n - 1);
     matrix[x][y] = PASS;
     var current;
     var adjacentCells;
@@ -279,13 +279,13 @@ function generateMaze(matrix, n) {
 
 
     while (walls.length != 0) {
-        let index = randomInt(0, walls.length - 1);
+        let index = randomIntGA(0, walls.length - 1);
         current = walls[index];
         visited[current.x][current.y] = true;
         matrix[current.x][current.y] = PASS;
         adjacentCells = adjacentCellsA(current, n, 2)
         while (true) {
-            cell = adjacentCells[randomInt(0, adjacentCells.length - 1)];
+            cell = adjacentCells[randomIntGA(0, adjacentCells.length - 1)];
             if (matrix[cell.x][cell.y] == PASS) {
                 matrix[parseInt((cell.x + current.x) / 2)][parseInt((cell.y + current.y) / 2)] = PASS;
                 break;
