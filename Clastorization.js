@@ -88,7 +88,7 @@ function KmeansC() { //k=50-максимум
                     NumOfClaster = j;
                 }
             }
-            if (Points[i].Claster != NumOfClaster && !flag) flag = 1;
+            if (Points[i].Claster !== NumOfClaster && !flag) flag = 1;
             Points[i].Claster = NumOfClaster;
 
             nextPosCentroid[NumOfClaster].sumX += Points[i].x;
@@ -130,7 +130,7 @@ function Hierarhic() {
 
         for (var i = 1; i < NumOfPoints; i++) {
             for (var j = 0; j < i; j++) {
-                if (Points[i].Claster != Points[j].Claster) {
+                if (Points[i].Claster !== Points[j].Claster) {
                     if (Dist[i][j] < minDist.Distance && PrevMinDist < Dist[i][j]) {
                         minDist.Distance = Dist[i][j];
                         minDist.i = i;
@@ -142,11 +142,11 @@ function Hierarhic() {
 
         CurMinDist = minDist.Distance;
 
-        if (PrevMinDist * koef < CurMinDist && PrevMinDist != 0) { break; }
+        if (PrevMinDist * koef < CurMinDist && PrevMinDist !== 0) { break; }
 
         var ClustValue = Points[minDist.i].Claster;
         for (var l = 0; l < NumOfPoints; l++) {
-            if (Points[l].Claster == ClustValue) {
+            if (Points[l].Claster === ClustValue) {
                 Points[l].Claster = Points[minDist.j].Claster
             }
         }

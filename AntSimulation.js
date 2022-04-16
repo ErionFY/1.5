@@ -117,7 +117,7 @@ function createPheroMatrix() {
     for (var i = 0; i < n; i++) {
         matrix[i] = new Array(n);
         for (var j = 0; j < n; j++) {
-            if (i != j) {
+            if (i !== j) {
                 matrix[i][j] = basePhero;
             }
         }
@@ -147,7 +147,7 @@ function nextVertex(tabuList, current) {
 
     var probSum = 0;
     for (var i = 0; i < n; i++) {
-        if (tabuList.indexOf(i) == -1 && current != i) {
+        if (tabuList.indexOf(i) === -1 && current !== i) {
             probSum += edgeProbability(i, current);
         }
     }
@@ -156,7 +156,7 @@ function nextVertex(tabuList, current) {
     var maxProb = 0;
     var ind = -1;
     for (var i = 0; i < n; i++) {
-        if (tabuList.indexOf(i) == -1 && current != i) {
+        if (tabuList.indexOf(i) === -1 && current !== i) {
             if (randomProb <= edgeProbability(i, current, probSum)) {
                 return i;
             } else {

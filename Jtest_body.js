@@ -127,8 +127,8 @@ function sleep(time) {
 }
 
 function searchA() {
-    if (startPointA.x == -1 && startPointA.y == -1) { alert('Кто-то не разместил стартовую позицию ☉ ‿ ⚆'); return; }
-    if (finishPointA.x == -1 && finishPointA.y == -1) { alert('Кто-то не разместил финишную позицию ☉ ‿ ⚆'); return; }
+    if (startPointA.x === -1 && startPointA.y === -1) { alert('Кто-то не разместил стартовую позицию ☉ ‿ ⚆'); return; }
+    if (finishPointA.x === -1 && finishPointA.y === -1) { alert('Кто-то не разместил финишную позицию ☉ ‿ ⚆'); return; }
     clearBeforeClickA();
     searchPathA(NA, matrixA, startPointA, finishPointA);
 }
@@ -143,7 +143,7 @@ async function searchPathA(n, matrix, startPoint, finishPoint) {
     queue.push(startPoint);
     let current = startPoint;
 
-    while (queue.length != 0) {
+    while (queue.length !== 0) {
         if (!equalA(current, startPoint) && !equalA(current, finishPoint)) {
             changeColorA('darkorange', current);
         }
@@ -154,7 +154,7 @@ async function searchPathA(n, matrix, startPoint, finishPoint) {
         await sleep(timeDelA);
         if (equalA(current, finishPoint)) {
             let stack = [];
-            while (current != startPoint) {
+            while (current !== startPoint) {
                 stack.push(current); //          chartreuse
                 if (!equalA(current, finishPoint)) {
                     changeColorA('chartreuse', current);
@@ -167,7 +167,7 @@ async function searchPathA(n, matrix, startPoint, finishPoint) {
             return;
         }
         adjacentCellsA(current, n).forEach(function(nextPoint) {
-            if (!equalA(prevPoint[current.y * NA + current.x], nextPoint) && matrix[nextPoint.y][nextPoint.x] == 1) {
+            if (!equalA(prevPoint[current.y * NA + current.x], nextPoint) && matrix[nextPoint.y][nextPoint.x] === 1) {
                 if (prevPoint[nextPoint.y * NA + nextPoint.x].x === -1 && prevPoint[nextPoint.y * NA + nextPoint.x].y === -1) {
                     queue.push(nextPoint); //;жёлтый
                     if (!equalA(nextPoint, finishPoint)) {
@@ -202,7 +202,7 @@ function adjacentCellsA(point, n, dist = 1) {
 }
 
 function equalA(point1, point2) {
-    if (point1.x == point2.x && point1.y == point2.y) {
+    if (point1.x === point2.x && point1.y === point2.y) {
         return true;
     }
     return false;
@@ -278,7 +278,7 @@ function generateMaze(matrix, n) {
     let walls = adjacentCellsA({ x: x, y: y }, n, 2);
 
 
-    while (walls.length != 0) {
+    while (walls.length !== 0) {
         let index = randomIntGA(0, walls.length - 1);
         current = walls[index];
         visited[current.x][current.y] = true;
@@ -286,7 +286,7 @@ function generateMaze(matrix, n) {
         adjacentCells = adjacentCellsA(current, n, 2)
         while (true) {
             cell = adjacentCells[randomIntGA(0, adjacentCells.length - 1)];
-            if (matrix[cell.x][cell.y] == PASS) {
+            if (matrix[cell.x][cell.y] === PASS) {
                 matrix[parseInt((cell.x + current.x) / 2)][parseInt((cell.y + current.y) / 2)] = PASS;
                 break;
             }
@@ -334,14 +334,14 @@ function generateMazeSecond(matrix, n) {
     let passCount;
 
 
-    while (walls.length != 0) {
+    while (walls.length !== 0) {
         let index = randomIntGA(0, walls.length - 1);
         current = walls[index];
         adjacentCells = adjacentCellsA(current, n);
         passCount = 0;
         for (var i = -1; i < 2; i++) {
             for (var j = -1; j < 2; j++) {
-                if (check(current, i, j, n) && matrix[current.x + i][current.y + j] == PASS) {
+                if (check(current, i, j, n) && matrix[current.x + i][current.y + j] === PASS) {
                     passCount++;
                 }
             }

@@ -112,12 +112,12 @@ function createOffspringGA(genom1, genom2, point) {
         result.push(genom1[i]);
     }
     for (var i = point + 1; i < genom1.length; i++) {
-        if (result.indexOf(genom2[i]) == -1) {
+        if (result.indexOf(genom2[i]) === -1) {
             result.push(genom2[i]);
         } else {
             j = 0;
-            while (j != -1) {
-                if (result.indexOf(genom2[j]) == -1) {
+            while (j !== -1) {
+                if (result.indexOf(genom2[j]) === -1) {
                     result.push(genom2[j]);
                     j = -1;
                 } else {
