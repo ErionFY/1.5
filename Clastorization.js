@@ -156,6 +156,20 @@ function Hierarhic() {
         if (count === NumOfPoints - 2) { break; }
     }
 
+    var NumOfClusters = [];
+    for (var i = 0; i < NumOfPoints; i++) {
+        if (!NumOfClusters.includes(Points[i].Claster)) NumOfClusters.push(Points[i].Claster);
+    }
+
+    var sizeOfNumOfClusters = NumOfClusters.length;
+
+    for (var i = 0; i < sizeOfNumOfClusters; i++) {
+        for (var j = 0; j < NumOfPoints; j++) {
+            if (Points[j].Claster === NumOfClusters[i]) {
+                Points[j].Claster = i;
+            }
+        }
+    }
 
     //рисование
     for (var i = 0; i < NumOfPoints; i++) {
