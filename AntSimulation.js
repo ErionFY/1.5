@@ -63,6 +63,14 @@ function clearAntS() {
 
 async function CalculateAS() {
     GetValues();
+    if (Vertices.length === 0) { alert('Расставьте вершины/точки ☉ ‿ ⚆'); return; }
+    if (antNumber < 1 || antNumber > 100) { alert('Некорректное значение количества муравьёв ☉ ‿ ⚆'); return; }
+    if (iterNumber < 1) { alert('Некорректное значения количества итераций ☉ ‿ ⚆'); return; }
+    if (basePhero < 1) { alert('Некорректное значение basic pheromone ☉ ‿ ⚆'); return; }
+    if (weightCoeff < 0 || weightCoeff > 1) { alert('Некорректное значение Wheight Coef ☉ ‿ ⚆'); return; }
+    if (pheroCoeff < 0 || pheroCoeff > 1) { alert('Некорректное значение Pheromons Coef ☉ ‿ ⚆'); return; }
+    if (pheromonesPower < 1) { alert('Некорректное значение Pheromons Power ☉ ‿ ⚆'); return; }
+    if (evaporationCoeff < 0 || evaporationCoeff > 1) { alert('Некорректное значение Evaporation Coef ☉ ‿ ⚆'); return; }
     weightMatrix = createWeightMatrix();
     pheroMatrix = createPheroMatrix(); // Matrix of pheromones=
     var tabuList;

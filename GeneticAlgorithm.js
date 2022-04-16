@@ -206,7 +206,10 @@ function calcDistanceGA(point1, point2) {
 function CalculateGA() {
     cGA.removeEventListener('click', CreatePointGA);
     GetMutationChanceGA();
-    GetGenerationCountGA()
+    GetGenerationCountGA();
+    if (verticesGA.length === 0) { alert('Расставьте вершины/точки ☉ ‿ ⚆'); return; }
+    if (mutationChanceGA < 0 || mutationChanceGA > 100) { alert('Некорректное значение Mutation chance ☉ ‿ ⚆'); return; }
+    if (generationCountGA < 1) { alert('Некорректное значение generationCount ☉ ‿ ⚆'); return; }
     runGA(verticesGA.length);
     cGA.addEventListener('click', CreatePointGA);
 }

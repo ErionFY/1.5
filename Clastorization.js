@@ -53,9 +53,13 @@ function getRandomIntForKMeans(K, Numberpoints) {
 
 function KmeansC() { //k=50-максимум
     var K = parseInt(dK.value);
+    if (pointsArr.length === 0) { alert('Расставьте точки ☉ ‿ ⚆'); return; }
     var NumberOfPoints = pointsArr.length;
     var flag = 1;
-    if (K > NumberOfPoints) { return; } //количество точек меньше, чем k
+    if (K > numOfPoints || K <= 0) {
+        { alert('Некорректное значение К ☉ ‿ ⚆'); return; }
+        return;
+    }
     var centroid = [];
     let nextPosCentroid = [];
     var randElemnts = getRandomIntForKMeans(K, NumberOfPoints);
@@ -118,6 +122,7 @@ function PaintingClust() {
 }
 
 function Hierarhic() {
+    if (pointsArr.length === 0) { alert('Расставьте точки ☉ ‿ ⚆'); return; }
     var koef = Number(DKoef.value) / 100;
     var NumOfPoints = pointsArr.length;
     for (var i = 0; i < NumOfPoints; i++) {
