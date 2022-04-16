@@ -215,8 +215,8 @@ function clearAfterSearchA(pathA) {
         for (var j = 0; j < NA; j++) {
             if (matrixA[i][j] === 1) {
                 flag = 1;
-                for (var l = 0; l < pathSizeA; l++) {
-                    if (pathA[l].y === i && pathA[l].x === j) {
+                for (let point of pathA){
+                    if (point.y === i && point.x === j) {
                         flag = 0;
                         break;
                     }
@@ -262,11 +262,6 @@ function generateMaze(matrix, n) {
         visited[i] = new Array;
         for (var j = 0; j < n; j++) {
             visited[i][j] = false;
-        }
-    }
-
-    for (var i = 0; i < n; i++) {
-        for (var j = 0; j < n; j++) {
             matrix[i][j] = WALL;
         }
     }
@@ -317,14 +312,10 @@ function generateMazeSecond(matrix, n) {
         visited[i] = new Array;
         for (var j = 0; j < n; j++) {
             visited[i][j] = false;
-        }
-    }
-
-    for (var i = 0; i < n; i++) {
-        for (var j = 0; j < n; j++) {
             matrix[i][j] = WALL;
         }
     }
+    
     let x = randomIntGA(0, n - 1);
     let y = randomIntGA(0, n - 1);
     visited[x][y] = true;

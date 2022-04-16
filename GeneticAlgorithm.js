@@ -5,7 +5,7 @@ var ctxGA = cGA.getContext("2d");
 var sizeGA = canvasGeneticAlg.height = canvasGeneticAlg.width = 901;
 cGA.addEventListener('click', CreatePointGA);
 var RadiusOfPointGA = 18; // радиус кружка
-var VerticesGA = []; //массив вершин с координатами
+var verticesGA = []; //массив вершин с координатами
 var mutationChanceGA;
 var generationCountGA;
 var nGA;
@@ -16,7 +16,7 @@ function CreatePointGA(event) {
     var xCord = event.offsetX;
     var yCord = event.offsetY;
 
-    VerticesGA.push({ x: xCord, y: yCord });
+    verticesGA.push({ x: xCord, y: yCord });
 
     ctxGA.beginPath();
     ctxGA.arc(xCord, yCord, RadiusOfPointGA, 0, 2 * Math.PI);
@@ -25,16 +25,16 @@ function CreatePointGA(event) {
     ctxGA.fillStyle = 'white';
     ctxGA.font = "20px Arial";
 
-    if (VerticesGA.length < 10)
-        ctxGA.fillText((VerticesGA.length).toString(), xCord - 6, yCord + 7);
-    if (VerticesGA.length >= 10 && VerticesGA.length < 100)
-        ctxGA.fillText((VerticesGA.length).toString(), xCord - 10, yCord + 7);
-    if (VerticesGA.length > 100)
-        ctxGA.fillText((VerticesGA.length).toString(), xCord - 16, yCord + 7);
+    if (verticesGA.length < 10)
+        ctxGA.fillText((verticesGA.length).toString(), xCord - 6, yCord + 7);
+    if (verticesGA.length >= 10 && verticesGA.length < 100)
+        ctxGA.fillText((verticesGA.length).toString(), xCord - 10, yCord + 7);
+    if (verticesGA.length > 100)
+        ctxGA.fillText((verticesGA.length).toString(), xCord - 16, yCord + 7);
 }
 
 function clearGeneticGA() {
-    VerticesGA = [];
+    verticesGA = [];
     ctxGA.clearRect(0, 0, canvasClastorization.width, canvasClastorization.height);
 }
 
@@ -88,23 +88,6 @@ function selectionGA(genomes) {
     return offsprignsGenomes;
 
 }
-
-/*
-function selection(genomes){
-    var fitness=[];
-    for(var i=0;i<genomes.length;i++){
-        fitness.push(fitnessFunction(genomes[i]));
-    }
-    fitness.sort();
-    var offsprignsGenomes=[];
-    for(var i=0;i<genomes.length;i++){
-        if(fitness.indexOf(fitnessFunction(genomes[i]))<NUMBER_OF_GENES){
-            offsprignsGenomes.push(genomes[i]);
-        }
-    }
-    return offsprignsGenomes;
-}
-*/
 
 function createOffspringGA(genom1, genom2, point) {
     var result = [];
@@ -192,22 +175,22 @@ async function runGA(n) {
 function chooseBestWayGA(genomes) {
     var bestWay = genomes[0];
     var bestFF = fitnessFunctionGA(genomes[0]);
-    for (var i = 1; i < nGA; i++) {
-        if (fitnessFunctionGA(genomes[i]) < bestFF) {
-            bestFF = fitnessFunctionGA(genomes[i]);
-            bestWay = genomes[i];
+
+    for(let genome of genomes){
+        if (fitnessFunctionGA(genome) < bestFF) {
+            bestFF = fitnessFunctionGA(genome);
+            bestWay = genome;
         }
     }
+
     return bestWay;
 }
 
 function createMatrixGA(n) {
     matrixGA = new Array();
-    for (var i = 0; i < n; i++) {
-        matrixGA[i] = new Array();
-    }
 
     for (var i = 0; i < n; i++) {
+        matrixGA[i] = new Array();
         for (var j = 0; j < n; j++) {
             matrixGA[i][j] = calcDistanceGA(i, j);
         }
@@ -216,7 +199,7 @@ function createMatrixGA(n) {
 }
 
 function calcDistanceGA(point1, point2) {
-    var distance = Math.sqrt(Math.pow(VerticesGA[point1].x - VerticesGA[point2].x, 2) + Math.pow(VerticesGA[point1].y - VerticesGA[point2].y, 2));
+    var distance = Math.sqrt(Math.pow(verticesGA[point1].x - verticesGA[point2].x, 2) + Math.pow(verticesGA[point1].y - verticesGA[point2].y, 2));
     return distance;
 }
 
@@ -224,7 +207,7 @@ function CalculateGA() {
     cGA.removeEventListener('click', CreatePointGA);
     GetMutationChanceGA();
     GetGenerationCountGA()
-    runGA(VerticesGA.length);
+    runGA(verticesGA.length);
     cGA.addEventListener('click', CreatePointGA);
 }
 
@@ -236,14 +219,16 @@ function PaintPathGA(path, color) //var path = [0, 2, 1, 5, 4, 3];var color = "r
 {
     ctxGA.clearRect(0, 0, canvasClastorization.width, canvasClastorization.height);
     var sizePath = path.length;
-    var NumOfVertices = VerticesGA.length;
-    for (var i = 0; i < NumOfVertices; i++) { repaintPointGA(VerticesGA[i].x, VerticesGA[i].y); }
+
+    for (let vertex of verticesGA){
+        repaintPointGA(vertex.x,vertex.y);
+    }
     ctxGA.beginPath();
     ctxGA.strokeStyle = color;
     ctxGA.lineWidth = "5";
     for (var i = 0; i < sizePath; i++) {
-        ctxGA.moveTo(VerticesGA[path[i]].x, VerticesGA[path[i]].y);
-        ctxGA.lineTo(VerticesGA[path[(i + 1) % sizePath]].x, VerticesGA[path[(i + 1) % sizePath]].y);
+        ctxGA.moveTo(verticesGA[path[i]].x, verticesGA[path[i]].y);
+        ctxGA.lineTo(verticesGA[path[(i + 1) % sizePath]].x, verticesGA[path[(i + 1) % sizePath]].y);
     }
     ctxGA.stroke();
 }
