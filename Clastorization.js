@@ -14,7 +14,7 @@ var cClastor = document.getElementById("canvasClastorization");
 var ctxC = cClastor.getContext("2d");
 var sizeC = canvasClastorization.height = canvasClastorization.width = 901;
 cClastor.addEventListener('click', pushPoint);
-var Points = [];
+var pointsArr = [];
 var RadiusPaint = 6;
 var DKoef = document.getElementById("HierarhKoef");
 
@@ -23,7 +23,7 @@ function pushPoint(event) {
     var YCord = event.offsetY;
     var coords = { x: XCord, y: YCord, Claster: "" };
     PaintDot(coords, 'black');
-    Points.push(coords);
+    pointsArr.push(coords);
 }
 
 function PaintDot(coords, color) {
@@ -53,15 +53,15 @@ function getRandomIntForKMeans(K, Numberpoints) {
 
 function KmeansC() { //k=50-максимум
     var K = parseInt(dK.value);
-    var NumberOfPoints = Points.length;
+    var NumberOfPoints = pointsArr.length;
     var flag = 1;
     if (K > NumberOfPoints) { return; } //количество точек меньше, чем k
     var centroid = [];
     let nextPosCentroid = [];
     var randElemnts = getRandomIntForKMeans(K, NumberOfPoints);
 
-    for (var i = 0; i < K; i++) {
-        centroid.push({ x: Points[randElemnts[i]].x, y: Points[randElemnts[i]].y });
+    for (let elem of randElemnts){
+        centroid.push({x:pointsArr[elem].x,y:pointsArr[elem].y});
     }
 
     for (var i = 0; i < K; i++) {
@@ -71,28 +71,28 @@ function KmeansC() { //k=50-максимум
     while (flag) {
         flag = 0;
 
-        for (var i = 0; i < K; i++) {
-            nextPosCentroid[i].sumX = 0;
-            nextPosCentroid[i].sumY = 0;
-            nextPosCentroid[i].num = 0;
+        for(let position of nextPosCentroid){
+            position.sumX = 0;
+            position.sumY = 0;
+            position.num = 0;
         }
 
-        for (var i = 0; i < NumberOfPoints; i++) {
+        for(let point of pointsArr){
             var minDist = 10000;
             var NumOfClaster;
             var curDist;
-            for (var j = 0; j < K; j++) {
-                curDist = distBtwPoints(centroid[j], Points[i]);
+            for (let cent of centroid){
+                curDist = distBtwPoints(cent, point);
                 if (minDist > curDist) {
                     minDist = curDist;
-                    NumOfClaster = j;
+                    NumOfClaster = centroid.indexOf(cent);
                 }
             }
-            if (Points[i].Claster !== NumOfClaster && !flag) flag = 1;
-            Points[i].Claster = NumOfClaster;
+            if (point.Claster !== NumOfClaster && !flag) flag = 1;
+            point.Claster = NumOfClaster;
 
-            nextPosCentroid[NumOfClaster].sumX += Points[i].x;
-            nextPosCentroid[NumOfClaster].sumY += Points[i].y;
+            nextPosCentroid[NumOfClaster].sumX += point.x;
+            nextPosCentroid[NumOfClaster].sumY += point.y;
             nextPosCentroid[NumOfClaster].num += 1;
         }
 
@@ -103,27 +103,25 @@ function KmeansC() { //k=50-максимум
     }
 
     //рисование
-    for (var i = 0; i < NumberOfPoints; i++) {
-        PaintDot(Points[i], colorsClustor[Points[i].Claster]);
-    }
+    PaintingClust();
 }
 
 function clearClust() {
-    Points = [];
+    pointsArr = [];
     ctxC.clearRect(0, 0, canvasClastorization.width, canvasClastorization.height);
 }
 
 function PaintingClust() {
-    for (var i = 0; i < NumberOfPoints; i++) {
-        PaintDot(Points[i], colorsClustor[Points[i].Claster]);
+    for (let point of pointsArr){
+        PaintDot(point, colorsClustor[point.Claster])
     }
 }
 
 function Hierarhic() {
     var koef = Number(DKoef.value) / 100;
-    var NumOfPoints = Points.length;
+    var NumOfPoints = pointsArr.length;
     for (var i = 0; i < NumOfPoints; i++) {
-        Points[i].Claster = i;
+        pointsArr[i].Claster = i;
     }
 
     var Dist = MatrixOfDist(NumOfPoints);
@@ -136,7 +134,7 @@ function Hierarhic() {
 
         for (var i = 1; i < NumOfPoints; i++) {
             for (var j = 0; j < i; j++) {
-                if (Points[i].Claster !== Points[j].Claster) {
+                if (pointsArr[i].Claster !== pointsArr[j].Claster) {
                     if (Dist[i][j] < minDist.Distance && PrevMinDist < Dist[i][j]) {
                         minDist.Distance = Dist[i][j];
                         minDist.i = i;
@@ -150,10 +148,10 @@ function Hierarhic() {
 
         if (PrevMinDist * koef < CurMinDist && PrevMinDist !== 0) { break; }
 
-        var ClustValue = Points[minDist.i].Claster;
+        var ClustValue = pointsArr[minDist.i].Claster;
         for (var l = 0; l < NumOfPoints; l++) {
-            if (Points[l].Claster === ClustValue) {
-                Points[l].Claster = Points[minDist.j].Claster
+            if (pointsArr[l].Claster === ClustValue) {
+                pointsArr[l].Claster = pointsArr[minDist.j].Claster
             }
         }
 
@@ -163,24 +161,24 @@ function Hierarhic() {
     }
 
     var NumOfClusters = [];
-    for (var i = 0; i < NumOfPoints; i++) {
-        if (!NumOfClusters.includes(Points[i].Claster)) NumOfClusters.push(Points[i].Claster);
+    for(let point of pointsArr){
+        if (!NumOfClusters.includes(point.Claster)){
+            NumOfClusters.push(point.Claster);
+        }
     }
 
     var sizeOfNumOfClusters = NumOfClusters.length;
 
     for (var i = 0; i < sizeOfNumOfClusters; i++) {
-        for (var j = 0; j < NumOfPoints; j++) {
-            if (Points[j].Claster === NumOfClusters[i]) {
-                Points[j].Claster = i;
+        for(let point of pointsArr){
+            if (point.Claster === NumOfClusters[i]) {
+                point.Claster = i;
             }
         }
     }
 
     //рисование
-    for (var i = 0; i < NumOfPoints; i++) {
-        PaintDot(Points[i], colorsClustor[Points[i].Claster]);
-    }
+    PaintingClust();
 }
 
 function MatrixOfDist(NumberOfPoints) {
@@ -188,7 +186,7 @@ function MatrixOfDist(NumberOfPoints) {
     for (var i = 0; i < NumberOfPoints; i++) {
         matrixDist[i] = new Array();
         for (var j = 0; j < NumberOfPoints; j++) {
-            matrixDist[i][j] = distBtwPoints(Points[i], Points[j]);
+            matrixDist[i][j] = distBtwPoints(pointsArr[i], pointsArr[j]);
         }
     }
     return matrixDist

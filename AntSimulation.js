@@ -2,7 +2,7 @@ var cAS = document.getElementById("canvasAntSimulation")
 var ctx = cAS.getContext("2d");
 var sizeAS = canvasAntSimulation.height = canvasAntSimulation.width = 901;
 var RadiusOfPoint = 18;
-var Vertices = [];
+var vertices = [];
 cAS.addEventListener('click', CreatePoint);
 var n; //  Number of vertices
 var antNumber; //  Number of ants
@@ -37,8 +37,8 @@ function CreatePoint(event) {
     var xCord = event.offsetX;
     var yCord = event.offsetY;
 
-    Vertices.push({ x: xCord, y: yCord });
-    n = Vertices.length;
+    vertices.push({ x: xCord, y: yCord });
+    n = vertices.length;
 
     ctx.beginPath();
     ctx.arc(xCord, yCord, RadiusOfPoint, 0, 2 * Math.PI);
@@ -47,17 +47,17 @@ function CreatePoint(event) {
     ctx.fillStyle = 'white';
     ctx.font = "20px Arial";
 
-    if (Vertices.length < 10)
-        ctx.fillText((Vertices.length).toString(), xCord - 6, yCord + 7);
-    if (Vertices.length >= 10 && Vertices.length < 100)
-        ctx.fillText((Vertices.length).toString(), xCord - 10, yCord + 7);
-    if (Vertices.length > 100)
-        ctx.fillText((Vertices.length).toString(), xCord - 16, yCord + 7);
+    if (vertices.length < 10)
+        ctx.fillText((vertices.length).toString(), xCord - 6, yCord + 7);
+    if (vertices.length >= 10 && vertices.length < 100)
+        ctx.fillText((vertices.length).toString(), xCord - 10, yCord + 7);
+    if (vertices.length > 100)
+        ctx.fillText((vertices.length).toString(), xCord - 16, yCord + 7);
 }
 
 
 function clearAntS() {
-    Vertices = [];
+    vertices = [];
     ctx.clearRect(0, 0, canvasAntSimulation.width, canvasAntSimulation.height);
 }
 
@@ -98,9 +98,7 @@ async function CalculateAS() {
 }
 
 function addPheromones(pathList) {
-    var path;
-    for (i = 0; i < antNumber; i++) {
-        path = pathList[i];
+    for (let path of pathList) {
 
         delta = pheromonesPower / pathLength(path);
         for (var j = 0; j < n - 1; j++) {
@@ -177,11 +175,9 @@ function edgeProbability(i, j, probSum = 1) {
 
 function createWeightMatrix() {
     var matrix = new Array();
-    for (var i = 0; i < n; i++) {
-        matrix[i] = new Array();
-    }
 
     for (var i = 0; i < n; i++) {
+        matrix[i] = new Array();
         for (var j = 0; j < n; j++) {
             matrix[i][j] = calcDistance(i, j);
         }
@@ -190,7 +186,7 @@ function createWeightMatrix() {
 }
 
 function calcDistance(point1, point2) {
-    var distance = Math.sqrt(Math.pow(Vertices[point1].x - Vertices[point2].x, 2) + Math.pow(Vertices[point1].y - Vertices[point2].y, 2));
+    var distance = Math.sqrt(Math.pow(vertices[point1].x - vertices[point2].x, 2) + Math.pow(vertices[point1].y - vertices[point2].y, 2));
     return distance;
 }
 
@@ -199,14 +195,17 @@ function PaintPath(path, color) //var path = [0, 2, 1, 5, 4, 3];var color = "red
 {
     ctx.clearRect(0, 0, canvasAntSimulation.width, canvasAntSimulation.height);
     var sizePath = path.length;
-    var NumOfVertices = Vertices.length;
-    for (var i = 0; i < NumOfVertices; i++) { repaintPoint(Vertices[i].x, Vertices[i].y); }
+    var NumOfVertices = vertices.length;
+    //for (var i = 0; i < NumOfVertices; i++) { repaintPoint(vertices[i].x, vertices[i].y); }
+    for(let vertex of vertices){
+        repaintPoint(vertex[i].x, vertex[i].y);
+    }
     ctx.beginPath();
     ctx.strokeStyle = color;
     ctx.lineWidth = "5";
     for (var i = 0; i < sizePath; i++) {
-        ctx.moveTo(Vertices[path[i]].x, Vertices[path[i]].y);
-        ctx.lineTo(Vertices[path[(i + 1) % sizePath]].x, Vertices[path[(i + 1) % sizePath]].y);
+        ctx.moveTo(vertices[path[i]].x, vertices[path[i]].y);
+        ctx.lineTo(vertices[path[(i + 1) % sizePath]].x, vertices[path[(i + 1) % sizePath]].y);
     }
     ctx.stroke();
 }
