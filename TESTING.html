@@ -8,26 +8,30 @@
 </head>
 
 <body>
-    <header id="H"> <a href="#AA">A*</a> &emsp; <a href="#Clustorization">   Clustorization</a>&emsp;<a href="#GA">  Genetic Alghorithm </a>&emsp;<a href="#AntA">   Ant Alghorithm </a></header>
+    
+    <div class="links"><a href="#AA">A*</a> &emsp; <a href="#Clustorization">   Clustorization</a>&emsp;<a href="#GA">  Genetic Alghorithm </a>&emsp;<a href="#AntA">   Ant Alghorithm </a></div>
     <h1 id="AA">A*</h1>
     <div class="mSettings" id="settingsA">
         N:
         <input id="nA" value="10" type="number" max="100" min="2">
-        <button onclick="paintingA()">create empty labyrinth/clear labirinth</button>
-        <button onclick="clickedA('startA')">start point</button>
-        <button onclick="clickedA('finishA')">finish point</button>
-        <button onclick="clickedA('impassable')">impassable point</button>
-        <button onclick="searchA()">search path</button>
-        <button onclick="generationF()">generate labirinth 1-st v</button>
-        <button onclick="generationS()">generate labirinth 2-nd v</button>
-        <button onclick="getTimeDelayA()">set TimeDelay</button>:
+        <button onclick="paintingA()">Create empty labyrinth / Clear labirinth</button>
+        <button onclick="clickedA('startA')">Start point</button>
+        <button onclick="clickedA('finishA')">Finish point</button>
+        <button onclick="clickedA('impassable')">Impassable point</button>
+        <button onclick="searchA()">Search path</button>
+        <button onclick="generationF()">Generate labirinth 1-st v</button>
+        <button onclick="generationS()">Generate labirinth 2-nd v</button>
+        <button onclick="getTimeDelayA()">Display speed</button>:
         <input id="timeDelay" value="1" type="number" min="1">
     </div>
     <canvas id="canvasA" style=" margin-top: 10px;">
     </canvas>
+    
+    <div class="links"><a href="#AA">A*</a> &emsp; <a href="#Clustorization">   Clustorization</a>&emsp;<a href="#GA">  Genetic Alghorithm </a>&emsp;<a href="#AntA">   Ant Alghorithm </a></div>
+
     <h1 id="Clustorization">Clustorization</h1>
     <div class="mSettings" id="settingsClastorization">
-        <button onclick="clearClust()">clear</button>
+        <button onclick="clearClust()">Clear</button>
         <button onclick="KmeansC()">k-means</button> K:
         <input id="Kvalue" value="3" type="number" min="1">
         <button onclick="Hierarhic()">Hierarhic</button>
@@ -35,19 +39,25 @@
     </div>
     <canvas id="canvasClastorization" style=" margin-top: 25px;">
 </canvas>
+
+<div class="links"><a href="#AA">A*</a> &emsp; <a href="#Clustorization">   Clustorization</a>&emsp;<a href="#GA">  Genetic Alghorithm </a>&emsp;<a href="#AntA">   Ant Alghorithm </a></div>
+
     <h1 id="GA">Genetic Algorithm</h1>
     <div id="GeneticSettings" class="mSettings">
         <button onclick="clearGeneticGA()">reset</button>
         <button onclick="CalculateGA()">Calculate</button> generationCount:
         <input id="NumberofMutations" value="500" type="number" min="1">
-        <button onclick="GetMutationChanceGA()">set Mutationchance</button>:
+        <button onclick="GetMutationChanceGA()">Mutation chance</button>:
         <input id="Mutationchance" value="50" type="number" min="0" max="100">
     </div>
     <canvas id="canvasGeneticAlg" style=" margin-top: 25px;"></canvas>
+    
+    <div class="links"><a href="#AA">A*</a> &emsp; <a href="#Clustorization">   Clustorization</a>&emsp;<a href="#GA">  Genetic Alghorithm </a>&emsp;<a href="#AntA">   Ant Alghorithm </a></div>
+
     <h1 id="AntA">Ant Alghorithm</h1>
     <div id="AntSSettings" class="mSettings">
         <button onclick="CalculateAS()">Calculate</button>
-        <button onclick="clearAntS()">reset</button>
+        <button onclick="clearAntS()">Reset</button>
     </div>
     <div class="mSettings"> Number of Ants:
         <input id="NumberOfAnts" value="10" type="number" min="0" max="100">Num of Iterations:
@@ -64,7 +74,9 @@
     <script type="text/javascript" src="AntSimulation.js"></script>
     <script type="text/javascript" src="Jtest_body.js"></script>
     <script type="text/javascript" src="Clastorization.js"></script>
-    <footer> <a href="#AA">A*</a> &emsp; <a href="#Clustorization">   Clustorization</a>&emsp;<a href="#GA">  Genetic Alghorithm </a>&emsp;<a href="#AntA"> Ant Alghorithm </a></footer>
+    
+    <div class="links"><a href="#AA">A*</a> &emsp; <a href="#Clustorization">   Clustorization</a>&emsp;<a href="#GA">  Genetic Alghorithm </a>&emsp;<a href="#AntA">   Ant Alghorithm </a></div>
+
 </body>
 
 </html>

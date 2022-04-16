@@ -2,10 +2,11 @@ body {
     background-color: rgb(77, 64, 88);
 }
 
-header,
-footer {
+.links {
+    padding-top: 20px;
     text-align: center;
-    background-color: rgb(89, 74, 102);
+    background-color: rgb(77, 64, 88);
+    ;
 }
 
 h1 {
