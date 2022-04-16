@@ -303,11 +303,11 @@ function generateMaze(matrix, n) {
         walls.splice(index, 1);
     }
 
-    for(var i=0;i<n;i++){
-        matrix[0][i]=WALL;
-        matrix[n-1][i]=WALL;
-        matrix[i][0]=WALL;
-        matrix[i][n-1]=WALL;
+    for (var i = 0; i < n; i++) {
+        matrix[0][i] = WALL;
+        matrix[n - 1][i] = WALL;
+        matrix[i][0] = WALL;
+        matrix[i][n - 1] = WALL;
     }
 }
 
@@ -327,7 +327,7 @@ function generateMazeSecond(matrix, n) {
     }
     let x = randomIntGA(0, n - 1);
     let y = randomIntGA(0, n - 1);
-    visited[x][y]=true;
+    visited[x][y] = true;
     matrix[x][y] = PASS;
     var current;
     let walls = adjacentCellsA({ x: x, y: y }, n);
@@ -338,37 +338,50 @@ function generateMazeSecond(matrix, n) {
         let index = randomIntGA(0, walls.length - 1);
         current = walls[index];
         adjacentCells = adjacentCellsA(current, n);
-        passCount=0;
-            for(var i=-1;i<2;i++){
-                for(var j=-1;j<2;j++){
-                    if(check(current,i,j,n) && matrix[current.x+i][current.y+j]==PASS){
-                        passCount++;
-                    }
+        passCount = 0;
+        for (var i = -1; i < 2; i++) {
+            for (var j = -1; j < 2; j++) {
+                if (check(current, i, j, n) && matrix[current.x + i][current.y + j] == PASS) {
+                    passCount++;
                 }
             }
-            if(passCount<4){
-                matrix[current.x][current.y] = PASS;
-                adjacentCellsA(current, n).forEach(function(cell) {
+        }
+        if (passCount < 4) {
+            matrix[current.x][current.y] = PASS;
+            adjacentCellsA(current, n).forEach(function(cell) {
                 if (!visited[cell.x][cell.y]) {
                     walls.push(cell);
                     visited[cell.x][cell.y] = true;
                 }
             });
         }
-        
+
         walls.splice(index, 1);
     }
 }
 
-function check(current,x,y,n){
-    if(current.x+x<n && current.x+x>=0 && current.y+y<n && current.y+y>=0){
+function check(current, x, y, n) {
+    if (current.x + x < n && current.x + x >= 0 && current.y + y < n && current.y + y >= 0) {
         return true;
     }
 }
 
-function generation() {
+function generationF() {
     paintingA();
     generateMaze(matrixA, NA);
+    for (var i = 0; i < NA; i++) {
+        for (var j = 0; j < NA; j++) {
+            if (matrixA[i][j] === 0) {
+                ctxA.fillStyle = 'darkblue';
+                ctxA.fillRect(j * pxvalueA + 1, i * pxvalueA + 1, pxvalueA - 2, pxvalueA - 2);
+            }
+        }
+    }
+}
+
+function generationS() {
+    paintingA();
+    generateMazeSecond(matrixA, NA);
     for (var i = 0; i < NA; i++) {
         for (var j = 0; j < NA; j++) {
             if (matrixA[i][j] === 0) {

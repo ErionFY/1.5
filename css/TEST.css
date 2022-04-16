@@ -10,10 +10,13 @@ footer {
 
 h1 {
     text-align: center;
+    text-shadow: 2px 2px 4px rgb(38, 185, 188);
+    color: white;
 }
 
 .mSettings {
     text-align: center;
+    color: rgb(218, 238, 87);
 }
 
 #canvasClastorization,
@@ -29,4 +32,11 @@ h1 {
 
 #HierarhKoef {
     width: 300px;
+}
+
+a:link,
+a:visited {
+    color: rgb(76, 210, 204);
+    background-color: transparent;
+    text-decoration: none;
 }
