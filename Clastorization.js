@@ -113,6 +113,12 @@ function clearClust() {
     ctxC.clearRect(0, 0, canvasClastorization.width, canvasClastorization.height);
 }
 
+function PaintingClust() {
+    for (var i = 0; i < NumberOfPoints; i++) {
+        PaintDot(Points[i], colorsClustor[Points[i].Claster]);
+    }
+}
+
 function Hierarhic() {
     var koef = Number(DKoef.value) / 100;
     var NumOfPoints = Points.length;
