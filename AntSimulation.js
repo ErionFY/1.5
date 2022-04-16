@@ -198,7 +198,7 @@ function PaintPath(path, color) //var path = [0, 2, 1, 5, 4, 3];var color = "red
     var NumOfVertices = vertices.length;
     //for (var i = 0; i < NumOfVertices; i++) { repaintPoint(vertices[i].x, vertices[i].y); }
     for(let vertex of vertices){
-        repaintPoint(vertex[i].x, vertex[i].y);
+        repaintPoint(vertex.x, vertex.y);
     }
     ctx.beginPath();
     ctx.strokeStyle = color;
