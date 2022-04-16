@@ -54,15 +54,15 @@ function getRandomIntForKMeans(K, Numberpoints) {
 function KmeansC() { //k=50-максимум
     var K = parseInt(dK.value);
     if (pointsArr.length === 0) { alert('Расставьте точки ☉ ‿ ⚆'); return; }
-    var NumberOfPoints = pointsArr.length;
+    var numberOfPoints = pointsArr.length;
     var flag = 1;
-    if (K > numOfPoints || K <= 0) {
+    if (K > numberOfPoints || K <= 0) {
         { alert('Некорректное значение К ☉ ‿ ⚆'); return; }
         return;
     }
     var centroid = [];
     let nextPosCentroid = [];
-    var randElemnts = getRandomIntForKMeans(K, NumberOfPoints);
+    var randElemnts = getRandomIntForKMeans(K, numberOfPoints);
 
     for (let elem of randElemnts){
         centroid.push({x:pointsArr[elem].x,y:pointsArr[elem].y});
