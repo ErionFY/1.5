@@ -64,7 +64,7 @@ function clearAntS() {
 async function CalculateAS() {
     GetValues();
     if (vertices.length === 0) { alert('Расставьте вершины/точки ☉ ‿ ⚆'); return; }
-    if (antNumber < 1 || antNumber > 100) { alert('Некорректное значение количества муравьёв ☉ ‿ ⚆'); return; }
+    if (antNumber < 1 || antNumber > 10000) { alert('Некорректное значение количества муравьёв ☉ ‿ ⚆'); return; }
     if (iterNumber < 1) { alert('Некорректное значения количества итераций ☉ ‿ ⚆'); return; }
     if (basePhero < 1) { alert('Некорректное значение basic pheromone ☉ ‿ ⚆'); return; }
     if (weightCoeff < 0 || weightCoeff > 1) { alert('Некорректное значение Wheight Coef ☉ ‿ ⚆'); return; }

@@ -56,7 +56,7 @@ function KmeansC() { //k=50-максимум
     if (pointsArr.length === 0) { alert('Расставьте точки ☉ ‿ ⚆'); return; }
     var numberOfPoints = pointsArr.length;
     var flag = 1;
-    if (K > numberOfPoints || K <= 0) {
+    if (K > numberOfPoints || K <= 0 || isNaN(K)) {
         { alert('Некорректное значение К ☉ ‿ ⚆'); return; }
         return;
     }

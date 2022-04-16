@@ -84,7 +84,7 @@ function paintingA() {
     canvasA.width = 901;
     sizeA = canvasA.height = 901;
     NAd = document.getElementById("nA");
-    if (NAd.value < 2) { alert('Кто-то ввёл число, меньшее 2 ☉ ‿ ⚆'); return; }
+    if (NAd.value < 2 || isNaN(NAd.value)) { alert('Кто-то ввёл число, меньшее 2 ☉ ‿ ⚆'); return; }
     if (NAd.value > 100) { alert('Кто-то ввёл число, большее 100 ☉ ‿ ⚆'); return; }
     NA = NAd.value;
     //получили N
